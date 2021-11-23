@@ -1,0 +1,387 @@
+
+
+ -- TIROUS TOOLBOX CRASH COURSE --
+
+
+	This document aims to provide a *rough* overview of the Tirous Toolbox library and its
+	various features. This feature list is not exhaustive, and there are entire categories,
+	like low-level parsing, which are mentioned only in passing, and other which are
+	never even brought up at all.
+
+	This is not a highly detailed manual, you can read the source code for that. Instead, 
+	it's intended to provide the information required to use the library and use it properly.
+
+	Thus, to any new users of the Tirous Toolbox library, do give this document a quick
+	read to get up-to-speed regarding what it is and how to use it.
+
+
+ -- LIBRARY OVERVIEW --
+
+
+	The Tirous Toolbox library is an extension to the C++ standard library, developed for 
+	use with C++17 (though compatibility with older pre-C++17 code may be added later.)
+
+	The library is a header-only library, with no external dependencies, nor any external 
+	linkage to resolve.
+
+
+ -- LIBRARY CONFIGURATION --
+
+
+	The library may be configured via the following preprocessor definitions:
+
+
+		TT_CONFIG_RELEASE		Makes the library compile in 'release mode', disabling debug
+								features of the library.
+
+								The Tirous Toolbox library operates on its own notion of
+								a 'debug mode' (and thus also 'release mode') which is
+								enabled by default, thus require the end-user to disable
+								this custom debug mode for their release builds.
+
+		TT_CONFIG_MSVC			Specializes the library for compilation on MSVC.
+								
+								By default, no compiler-specific presumptions are made.
+
+								The most notable affect of this is in regards to how it
+								makes the library use _aligned_malloc, instead of the
+								standard library std::aligned_alloc, which isn't available
+								on MSVC for compatibility reasons.
+
+		TT_CONFIG_64BIT			Makes the library compile for 64-bit platforms.
+
+								The library was developed for 64-bit platforms, but is 
+								nevertheless 32-bit by default.
+
+
+ -- LIBRARY STRUCTURE --
+
+
+	The library is organized as a simple collection of header files, which the user may
+	include as they need, and which, obviously, include other header files which they
+	depend upon.
+
+	Furthermore, headers are also organized into larger 'group' header files in the 
+	'tt/groups' subdirectory, which package together the resources of the library into 
+	reasonably organized collections. These groups are designed to be the main way
+	the end-user includes the library's contents, rather than trying to navigate its
+	many particular header files.
+
+	Furthermore, the special 'tt/groups/all.h' group header file includes ALL other group
+	header files, and thus the whole library, all at once. This is here for completeness,
+	and to help speed-up development, but it is not advised to be used in any actually
+	serious context, due to how it can vary easily needlessly fatten source files.
+
+
+ -- STANDARD LIBRARY ALIASES --
+
+
+	One thing you'll notice about the Tirous Toolbox is my personal love of making
+	my code look all pretty and what-not via the use of MANY, often somewhat pointless,
+	type aliases.
+
+	In the global namespace, there are a number of basic type aliases which use a 
+	C-style tt_* naming convention.
+
+	There are aliases for standard library datastructures, with tt::hash_map, for example, 
+	being an alias of the standard library std::unordered_map, renamed to be more STL-like.
+
+	One stupid little issue which can arise from this is that using tt::hash_map may
+	result in an unresolved external symbol error due to the fact that the header file
+	which defines it forward declares std::unordered_map, but obviously doesn't define it.
+
+	Thus, when using things like tt::hash_map, but sure to consider whether or not it's
+	an actual seperate class, or if it's an alias, and if the ladder, be sure to remember
+	that the standard library header file may not be included by the alias' header file.
+
+	If you think my library is stupid for this little rule, that's fair... I can't help it...
+
+
+ -- EXCEPTIONS & DEBUGGING --
+
+
+	The 'debug mode' described here (and everywhere else below) refers to the Tirous 
+	Toolbox library's custom debug mode.
+
+	The macro tt_assert is provided for basic assertion usage, providing a much more
+	detailed debug output than is usually provided, or at least I think so.
+
+	The macro tt_assert_bad ALWAYS fails, and is intended for use in code branches
+	which should never be reached. This is useful as branching to a part of code which
+	wasn't intended to be reached can cause subtle, otherwise silent, errors.
+
+	Both tt_assert and tt_assert_bad are, of course, hollowed out in release mode.
+
+	The macro TT_EXCEPTION_STRUCT is used to define an entire exception struct object
+	in a single macro definition, so long as said exception is trivially simple, containing
+	no complex internal state or behaviour.
+
+	The TT_THROW and TT_RETHROW are intended for use (re)throwing exceptions defined
+	by the above macro, TT_THROW in particular providing a nicely formatted debug read-out.
+	These macros are, nevertheless, completely optional of course.
+
+
+ -- TIME & TIME KEEPING --
+
+
+	The Tirous Toolbox library provides a high-level API for time and time keeping related
+	tasks, one abstracting the painful nuances of the standard chrono library.
+
+	This comes in the form of the tt::time_value and tt::time_value_nano structs.
+
+	The tt::time_value struct defines an integer-like time amount, measured in microseconds,
+	which is always positive (you can't have literally negative time values) and always 64-bit.
+
+	Likewise, the tt::time_value_nano is effectively the same, but is a measure of nanoseconds,
+	rather than microseconds, and is thus somewhat more restrictive regarding its upper limit.
+
+	Initialization of the above two structs is performed via static functions, with the 'now'
+	function in particular being used to sample the current system clock time.
+
+	Time value structs can be converted to hashes, and use the library's fancy hashing system,
+	as will be explained below.
+
+	They also participate in the library's even fancier 'string visualization' system, and
+	can be visualized in a really nice, formatted, fashion with their 'visualize' function.
+
+	See source code for more details regarding these structs.
+
+	Custom sleep functions are also provided, which employ the above structs.
+
+
+ -- RUN-TIME TYPE INFORMATION (RTTI) --
+
+
+	The Tirous Toolbox library provides an tt::rtti struct, encapsulating the limited RTTI
+	information made available by the standard library (and thus also being just as 
+	restricted, often time.)
+
+	These RTTI structs have a notion of a 'null' state.
+
+	The tt::rtti_of functions are used to sample the RTTI of things, be they pure types,
+	or the types implied by the passing of specific instances.
+
+
+ -- DELETERS & PACKAGED DELETIONS --
+
+
+	The Tirous Toolbox library defines a standardized notion of a 'deleter', one which
+	generalizes all compatible deletion methods under a single generic interface.
+
+	The core of this is the tt::deleter function pointer type alias, which accepts
+	a void pointer to whatever is being deleted, and a tt::deleter_info object, which
+	is a simple union which allows a single processor word/pointer (whichever is bigger)
+	to be passed to the function to provide additional information, such as a size, or
+	a pointer to a large information struct.
+
+	The tt::invoke_deleter function is used to invoke said deleters.
+
+	Many tt::***_deleter functions are provided, which cover most of the standard ways
+	something might be deleted, via the use of templates.
+
+	Finally, the tt::packaged_deletion object takes this system one step further in 
+	allowing for the whole notion of 'some object' being deleted via 'some method' to
+	be encapsulated by an object, which records the information needed to perform
+	this deletion until it comes time to perform it.
+
+	Take note that tt::packaged_deletion is not a template: the system is built such
+	that the deletions of many different objects, via many different methods, can 
+	all be managed under a single unified system.
+
+	This powerfully generic system of object deletion encapsulation is intended for
+	use in the development of garbage collectors, or things like fancy pointers to
+	shared state.
+
+	These tt::packaged_deletion objects are initialized via a static 'make' function.
+
+	They also define a notion of a 'null' state.
+
+
+ -- SCOPED & SHARED POINTERS --
+
+
+	The Tirous Toolbox library defines custom unique and shared pointer classes 
+	called tt::scoped and tt::shared, respectively.
+
+	These are not type aliases.
+
+	These were developed to ensure that they can operate using the above described
+	deleter and packaged deletion systems.
+
+	In particular, tt::shared employs a notion of a 'shared state object' in the
+	form of a tt::shared_state class, allowing for better use of shared pointers 
+	in multi-threaded contexts, by giving the user direct control over this shared 
+	state. Thus, the default non-thread-safe shared state is simply that, a default.
+
+	These objects are initialized via the use of static functions, and both define 
+	a notion of being 'null'.
+
+
+ -- BYTE ORDER (aka. ENDIANNESS) --
+
+
+	The Tirous Toolbox library defines a standardized notion of endianness via a
+	tt::endian enum, and provides functions like tt::get_native_endian to sample
+	the endianness of the user's machine (...assuming my code works properly.)
+
+	Defined in this enum is tt::endian::NATIVE, which is not an endianness value,
+	but instead a signal to the system to use the user's machine's endianness.
+
+	This NATIVE value is *resolved* via tt::get_endian, which should always
+	be used to *filter* an endianness value when passed, to account for NATIVE.
+
+	Unless otherwise specified, this resolving of NATIVE may be assumed when using
+	library functions which accept tt::endian.
+
+
+ -- CUSTOM DATA STRUCTURES --
+
+
+	Alongside the above-mentioned standard library container type aliases, the 
+	Tirous Toolbox library does define a few of its own container classes.
+
+	The first is tt::slice, which is a simple array-like slice memory view 
+	object, which are initialized via tt::slice_of.
+
+	The second is tt::range, which describes an iterator range, intended for
+	things like linked-list style containers, and for iteration. These are
+	initialized via tt::range_of.
+
+	Also, the tt::contiguous_iterator class is used to summarize the creation
+	of simple iterators over contiguous arrays of object, such as for containers,
+	or memory interpretation.
+
+	The third custom container is the tt::tuple struct, which while incompatible
+	with, and less powerful than, the standard library tuple class, is nevertheless
+	WAY more user friendly, and WAY more intuitive to actually use.
+
+	Again, these are initialized via tt::tuple_of.
+
+	The last custom 'container' is tt::chunk, which is a simple buffer of typeless,
+	uninitialized memory under a strict alignment. This class is notable as it 
+	treats uninitialized memory like a string, with concatenation, sub-'strings',
+	geometric container growth, and 'SBO' or 'Small Buffer Optimization' all being
+	provided.
+
+	Various 'get' functions are provided to access the contents of the container
+	such that its contents are interpreted as objects.
+
+	When using tt::chunk for placement-construction, be mindful of potential 
+	reallocation that could occur.
+
+	These chunks operate internally according to alignment sized 'units', which 
+	are the unit of measurement of sizes and indices with the container.
+
+	That said, byte-by-byte alternatives are also available.
+
+	The tt::chunk_view class is the memory-view object associated with tt::chunk.
+
+
+ -- HASH GENERATION --
+
+
+	The Tirous Toolbox library provides a series of quality-of-life tools used
+	to make the generation of (okay enough) hashes easier, as well as the more
+	easy specializing of std::hash.
+
+	The tt::hash_factory is used to generate hashes via use of two (vary large)
+	prime numbers. These hashes are far from the best, but they're what I use,
+	and they've proven reasonable enough so far.
+
+	The tt::hash_of and tt::array_hash_of functions are used to generate hashes
+	via std::hash instantiations.
+
+	The tt/hash.h header file provides some nice utility macros to minimize the
+	pain of specializing std::hash. For a good example of how these macros are
+	intended to be used, see the bottom of tt/time_value.h, or other header files.
+
+	These macros are used to allow for one to define a simple 'tt_size hash() const'
+	member function in a class, then quickly hook it up so std::hash invokes it,
+	which is a great quality-of-life improvement.
+
+	That said, do take careful note of the documentation in tt/hash.h regarding
+	its use with class templates.
+
+
+ -- STRING VISUALIZATION & FPRINT --
+
+
+	The Tirous Toolbox library provides a system of 'visualization', which generates
+	a nicely formatted (more or less) string representation of a given object, which
+	helps in the development of things like diagnostics.
+
+	Classes define a 'tt_string visualize() const' member function, and then a
+	specialization of tt::visualizer is made, which invokes this visualize method,
+	registering that class with the library's visualization system.
+
+	This system, operating off of tt::visualizer specializations, employs a system
+	of macros in order to perform these specializations which are nearly identical
+	to their std::hash specializing counterparts discussed above. Thus, see source
+	code for some examples of this, again, like tt/time_value.h.
+
+	Functions like tt::fprint and tt::fprintl are the centerpiece of this system, 
+	with these being the the default 'printing' functions of the library. Put simply,
+	one enters a sequence of visualizable objects, and the fprint function prints
+	then interpolated to the console, or via something like tt::fprint_s, to a string.
+
+
+ -- UNICODE & TEXT ENCODING --
+
+
+	The Tirous Toolbox library provides a set of tools used to work with Unicode
+	codepoints and encodings.
+
+	The tt_unichar alias is provided to contain Unicode codepoint values as a character
+	type. This type is not intended for use in actual strings, but instead as merely a
+	way of storing individual codepoint values.
+
+	The tt/utf8.h, tt/utf16.h, and tt/utf32.h header files provide standardized tools
+	with which to work with UTF-8, UTF-16, and UTF-32, respectively, employing a 
+	generalized notion of 'encoded units' and 'decoded units' to harmonize the three
+	different encodings.
+
+	The tt/bom.h header file likewise provides low-level tools to work with the 
+	BOMs (Byte Order Markers) of these encodings.
+
+	The above two paragraphs' features are brought together by the tt::text_encoding
+	struct, which uses UTF encoding, BOM, and byte order information to encapsulate the
+	description of an entire text encoding under a single generalized interface.
+
+	These tt::text_encoding objects carry with them various member functions with which
+	to encode/decode via said encoding, as well as to gather information about the 
+	encoding, and to work with the encoding's BOM information, if any.
+
+	Take note that tt::text_encoding objects can also describe BOM encodings which lack
+	endianness information and thus need to be *resolved* before being able to be 
+	used to perform encoding/decoding.
+
+	These tt::text_encoding objects are initialized via static functions.
+
+	Using these encoding objects, the tt::text_encoder, the tt::text_decoder, and the
+	tt::text_measurer classes are used to employ these encodings in the encoding, 
+	decoding, and measuring of buffers of encoded text. The former of these two,
+	in specific, operate upon tt::chunk(_view) objects.
+
+	Abstracting one final layer up, the tt::translate_text function allows for a 
+	tt::chunk(_view) of text encoding via some tt::text_encoding to be converted 
+	into a tt::chunk encoded in an output tt::text_encoding.
+
+	This tt::translate_text function is nice and general, and even resolves BOM encodings
+	properly, both as its input encoding, and as its output encoding, making working
+	with things like text file content really easy.
+
+	Finally, the library also provides support for base64 and low-level parsing.
+
+
+ -- FILES & FILESYSTEM
+
+
+	The Tirous Toolbox library provides some quality-of-life utilities to aid in
+	the process of managing files and the filesystem.
+
+	The two most significant of these are tt::load_file and tt::save_file, which
+	allow for the easy reading/writing of the entire contents of a file via
+	use of chunks, for things like text file loading.
+
+	In particular, these work well alongside things like text encoding translation.
+

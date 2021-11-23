@@ -1,0 +1,19 @@
+
+
+ -- TIROUS TOOLBOX LIBRARY FUTURE PLANS --
+
+
+	A quick-little rundown of things I'd like to do with this library in the future.
+
+	This document will be liberally added-to and removed-from as needed.
+
+
+ Future Plans
+
+
+	- Cleanup our source code so it's more readable by people other than just me.
+
+	- Use compiler-specific macro stuff to automate the setup of TT_CONFIG_* definitions.
+
+	- Rewrite the API so that it can handle compilation for pre-C++17 code, which is not universal.
+

@@ -1,0 +1,29 @@
+
+
+ -- TIROUS TOOLBOX LIBRARY VERSION HISTORY --
+
+
+	The Tirous Toolbox library operates upon a strict 'MAJOR.MINOR.PATCH' based
+	versioning system.
+
+	PATCH level updates are bug fixes and optimizations, not adding or removing anything.
+
+	MINOR level updates are additions to the library, alongside potentially a few
+	vary small removals or modifications, however these ladder two are to be done
+	on a VARY conservative basis, ensuring *reasonable* backwards compatibility.
+
+	MAJOR level updates involve major additions, removals, and modifications to 
+	the library, with no promise of backwards compatibility.
+
+
+Version 0.0.0 (September 26th, 2021)
+
+
+	- Began development of the Tirous Toolbox library.
+
+
+Version 1.0.0 (November 22nd, 2021)
+
+
+	- Finished development of the initial version of the Tirous Toolbox library.
+
