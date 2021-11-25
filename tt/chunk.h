@@ -27,6 +27,8 @@
 
 #include "fprint.h"
 
+#include "endian.h"
+
 
 namespace tt {
 
