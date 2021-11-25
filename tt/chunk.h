@@ -21,7 +21,9 @@
 #include "aligned_allocator.h"
 
 #include "visualize.h"
+
 #include "hash.h"
+#include "hash_functions.h"
 
 #include "fprint.h"
 

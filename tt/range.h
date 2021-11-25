@@ -12,6 +12,8 @@
 
 #include "forward_declarations.h"
 
+#include "iterator_util.h"
+
 #include "visualize.h"
 
 #include "hash.h"

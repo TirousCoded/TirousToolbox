@@ -13,6 +13,7 @@
 
 #include "hash.h"
 #include "hash_factory.h"
+#include "hash_functions.h"
 
 
 namespace tt {
