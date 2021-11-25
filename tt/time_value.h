@@ -11,6 +11,8 @@
 
 #include "aliases.h"
 
+#include "numeric_limits.h"
+
 #include "forward_declarations.h"
 
 #include "visualize.h"
