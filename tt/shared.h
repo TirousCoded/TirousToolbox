@@ -511,7 +511,9 @@ namespace tt {
 	};
 }
 
+#ifdef TT_HOME_SOURCE_FILE
 tt::shared_state tt::base_shared_pointer::default_state_object = {};
+#endif
 
 TT_HASHERS(0) {
 

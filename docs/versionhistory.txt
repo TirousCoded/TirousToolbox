@@ -35,3 +35,16 @@ Version 1.1 (November 25th, 2021)
 	- Fixed a billion tiny errors, mostly regarding header file X requiring something
 	  from header file Y, but not including Y yet.
 
+
+Version 1.2 (November 26th, 2021)
+
+
+	- The library uses a single global variable for its shared pointer implementation.
+
+	  To this end, in order to fix linkage problems that arose from this, naive on my
+	  part, usage of global variables, a notion of a 'home source file' has been defined
+	  in order for the library to be setup correctly.
+
+	  See docs/crashcourse.txt for details.
+
+

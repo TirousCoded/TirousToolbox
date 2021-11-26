@@ -15,14 +15,28 @@
 	read to get up-to-speed regarding what it is and how to use it.
 
 
- -- LIBRARY OVERVIEW --
+ -- LIBRARY OVERVIEW & SETUP --
 
 
 	The Tirous Toolbox library is an extension to the C++ standard library, developed for 
 	use with C++17 (though compatibility with older pre-C++17 code may be added later.)
 
 	The library is a header-only library, with no external dependencies, nor any external 
-	linkage to resolve.
+	linkage to resolve. Thus, to use the library one need only include its header files.
+
+	There is one exception to this however: the library defines things like global variables
+	(see tt/shared.h) which must be defined in one and only one translation unit 
+	(aka. *.cpp file) in order to link correctly.
+
+	Thus, the library requires its users to select a *.cpp file to act as the 'home source
+	file' of the library, to implement these linkage-sensitive details.
+
+	To do this, select a source file to be this home source file, and do the following:
+
+		1. add the line '#define TT_HOME_SOURCE_FILE' at the top of the file, and
+
+		2. follow this with an include of tt/groups/home_cpp_file.h, in order to define
+		   everything that needs to be defined across translation units.
 
 
  -- LIBRARY CONFIGURATION --
