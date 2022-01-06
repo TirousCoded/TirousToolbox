@@ -72,6 +72,10 @@ namespace tt {
 		// Default initializes an aligned allocator.
 		inline aligned_allocator() noexcept = default;
 
+		// Initializes an allocator of a different underlying type.
+		template<typename Other>
+		inline aligned_allocator(const aligned_allocator_t<Other>&) noexcept {}
+
 		// Copy-initializes an aligned allocator.
 		inline aligned_allocator(const this_t&) noexcept {}
 
