@@ -100,12 +100,12 @@ namespace tt {
 	// Reads the bytes at 'from', interpreting them as being in big endian byte order, returning the value resolved.
 	// If bytes_read is not nullptr, it will be set to the amount of bytes read by the operation.
 	template<typename T, typename P> 
-	inline T read_be(const P* const from, tt_size* bytes_read = nullptr) noexcept { return read(from, tt::endian::BIG, bytes_read); }
+	inline T read_be(const P* const from, tt_size* bytes_read = nullptr) noexcept { return read<T>(from, tt::endian::BIG, bytes_read); }
 
 	// Reads the bytes at 'from', interpreting them as being in little endian byte order, returning the value resolved.
 	// If bytes_read is not nullptr, it will be set to the amount of bytes read by the operation.
 	template<typename T, typename P> 
-	inline T read_le(const P* const from, tt_size* bytes_read = nullptr) noexcept { return read(from, tt::endian::LITTLE, bytes_read); }
+	inline T read_le(const P* const from, tt_size* bytes_read = nullptr) noexcept { return read<T>(from, tt::endian::LITTLE, bytes_read); }
 
 
 	// Writes the bytes at object 'from' into 'to', interpreting them as being in the byte order provided.
