@@ -30,7 +30,7 @@ namespace tt {
 
 	// Returns if the floating point value is an infinity value.
 	template<typename Value> 
-	inline tt_bool is_infinity(Value x) { return std::isfinite(x); }
+	inline tt_bool is_infinity(Value x) { return !tt::is_finite(x); }
 
 	// Returns if the floating point value is an NaN (Not-a-Number) value.
 	template<typename Value> 
