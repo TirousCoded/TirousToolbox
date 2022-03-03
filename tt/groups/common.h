@@ -16,8 +16,6 @@
 #include "../debug.h"
 #include "../api_version.h"
 
-#include "../datastructs.h"
-
 #include "../exceptions.h"
 #include "../forward_declarations.h"
 

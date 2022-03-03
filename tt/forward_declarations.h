@@ -32,13 +32,13 @@ namespace tt {
 	using stopwatch_nano = tt::stopwatch_class<tt::time_value_nano>;
 
 
-	template<typename Value>
-	class scoped;
+	//template<typename Value>
+	//class scoped;
 
-	class shared_state;
+	//class shared_state;
 
-	template<typename Value>
-	class shared;
+	//template<typename Value>
+	//class shared;
 
 
 	template<typename Value>

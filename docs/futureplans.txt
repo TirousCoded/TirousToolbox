@@ -8,12 +8,16 @@
 	This document will be liberally added-to and removed-from as needed.
 
 
- Future Plans
+ -- FUTURE PLANS --
 
 
-	- Cleanup our source code so it's more readable by people other than just me.
+	- cleanup our source code so it's more readable by people other than just me
 
-	- Use compiler-specific macro stuff to automate the setup of TT_CONFIG_* definitions.
+	- use compiler-specific macro stuff to automate the setup of TT_CONFIG_* definitions
 
-	- Rewrite the API so that it can handle compilation for pre-C++17 code, which is not universal.
+	- rewrite the API so that it can handle compilation for pre-C++17 code, which is not universal,
+	  with the Unreal Engine, as just one example, using C++14
+
+	- rewrite the API to use C-style header guards, for (vary rare) cases where the end-user
+	  doesn't have access to #pragma once
 

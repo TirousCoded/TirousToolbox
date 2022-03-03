@@ -23,10 +23,10 @@ namespace tt {
 	// If all of the above fails, the lack of tt::visualizer specialization will result in '???' being returned.
 	// See TT_REGISTER_VISUALIZE and TT_REGISTER_VISUALIZE_T for details on how to specialize tt::visualizer properly.
 	template<typename Value>
-	inline tt_string visualize(const Value& x);
+	inline tt_string vis(const Value& x);
 	
 	// Returns a string visualization of the given boolean value.
-	inline tt_string visualize_bool(tt_bool x) {
+	inline tt_string vis_bool(tt_bool x) {
 
 
 		if (x)
@@ -36,7 +36,7 @@ namespace tt {
 	}
 
 	// Returns a string visualization of the given unsigned integral value, in base-10.
-	inline tt_string visualize_uint(tt_ulong x) {
+	inline tt_string vis_uint(tt_ulong x) {
 
 
 		tt_string r;
@@ -63,22 +63,22 @@ namespace tt {
 	}
 
 	// Returns a string visualization of the given signed integral value, in base-10.
-	inline tt_string visualize_int(tt_long x) {
+	inline tt_string vis_int(tt_long x) {
 
 
 		tt_string r;
 
 		if (x > 0)
-			r = tt::visualize_uint(x);
+			r = tt::vis_uint(x);
 		else
-			r = tt::visualize_uint(x * -1),
+			r = tt::vis_uint(x * -1),
 			r.insert(r.begin(), '-');
 
 		return r;
 	}
 
 	// Returns a string visualization of the given unsigned integral value, in hexadecimal.
-	inline tt_string visualize_uint_hex(tt_ulong x, tt_bool uppercase = false) {
+	inline tt_string vis_uint_hex(tt_ulong x, tt_bool uppercase = false) {
 
 
 		tt_string r;
@@ -105,23 +105,23 @@ namespace tt {
 	}
 
 	// Returns a string visualization of the given signed integral value, in hexadecimal.
-	inline tt_string visualize_int_hex(tt_long x, tt_bool uppercase = false) {
+	inline tt_string vis_int_hex(tt_long x, tt_bool uppercase = false) {
 
 
 		tt_string r;
 
 		if (x > 0)
-			r = tt::visualize_uint_hex(x, uppercase);
+			r = tt::vis_uint_hex(x, uppercase);
 		else
-			r = tt::visualize_uint_hex(x * -1, uppercase),
+			r = tt::vis_uint_hex(x * -1, uppercase),
 			r.insert(r.begin(), '-');
 
 		return r;
 	}
 
-	// A specialized version of tt::visualize_uint_hex used to visualize the byte value of a single byte, ensuring that it is represented by exactly two characters.
+	// A specialized version of tt::vis_uint_hex used to visualize the byte value of a single byte, ensuring that it is represented by exactly two characters.
 	// This version also omits the '0x' or '0X' at the start of the string, as this is intended for a pure hex-editor style binary visualization.
-	inline tt_string visualize_byte_hex(tt_byte x, tt_bool uppercase = false) {
+	inline tt_string vis_byte_hex(tt_byte x, tt_bool uppercase = false) {
 
 
 		// all of this should be cheap due to SSO
@@ -141,7 +141,7 @@ namespace tt {
 	}
 
 	// Returns a string visualization of the given unsigned integral value, in octal.
-	inline tt_string visualize_uint_octal(tt_ulong x) {
+	inline tt_string vis_uint_octal(tt_ulong x) {
 
 
 		tt_string r;
@@ -168,22 +168,22 @@ namespace tt {
 	}
 
 	// Returns a string visualization of the given signed integral value, in octal.
-	inline tt_string visualize_int_octal(tt_long x) {
+	inline tt_string vis_int_octal(tt_long x) {
 
 
 		tt_string r;
 
 		if (x > 0)
-			r = tt::visualize_uint_octal(x);
+			r = tt::vis_uint_octal(x);
 		else
-			r = tt::visualize_uint_octal(x * -1),
+			r = tt::vis_uint_octal(x * -1),
 			r.insert(r.begin(), '-');
 
 		return r;
 	}
 
 	// Returns a string visualization of the given unsigned integral value, in binary.
-	inline tt_string visualize_uint_binary(tt_ulong x, tt_bool uppercase = false) {
+	inline tt_string vis_uint_binary(tt_ulong x, tt_bool uppercase = false) {
 
 
 		tt_string r;
@@ -210,15 +210,15 @@ namespace tt {
 	}
 
 	// Returns a string visualization of the given signed integral value, in binary.
-	inline tt_string visualize_int_binary(tt_long x, tt_bool uppercase = false) {
+	inline tt_string vis_int_binary(tt_long x, tt_bool uppercase = false) {
 
 
 		tt_string r;
 
 		if (x > 0)
-			r = tt::visualize_uint_binary(x, uppercase);
+			r = tt::vis_uint_binary(x, uppercase);
 		else
-			r = tt::visualize_uint_binary(x * -1, uppercase),
+			r = tt::vis_uint_binary(x * -1, uppercase),
 			r.insert(r.begin(), '-');
 
 		return r;
@@ -226,7 +226,7 @@ namespace tt {
 
 	// Returns a string visualization of the given Unicode codepoint of the given character.
 	template<typename Char>
-	inline tt_string visualize_bin_char_codepoint(Char x) {
+	inline tt_string vis_bin_char_codepoint(Char x) {
 
 
 		tt_string r = "[U+";
@@ -237,14 +237,14 @@ namespace tt {
 
 		auto xx = *(_UChar*)&x;
 
-		r += tt::visualize_uint_hex((tt_ulong)xx);
+		r += tt::vis_uint_hex((tt_ulong)xx);
 		
 		return r + "]";
 	}
 
 	// Returns a string visualization of the given character, interpreting it as a Unicode codepoint if it's not printable ASCII, or special strings for certain codepoints, like '[CR]' for carriage returns.
 	template<typename Char>
-	inline tt_string visualize_bin_char(Char x) {
+	inline tt_string vis_bin_char(Char x) {
 
 
 		switch ((tt_char32)x) {
@@ -273,14 +273,14 @@ namespace tt {
 		if (tt::in_printable_ascii((tt_size)x))
 			return tt_string(1, (tt_char)x);
 		else
-			return tt::visualize_bin_char_codepoint(x);
+			return tt::vis_bin_char_codepoint(x);
 	}
 
-	// Returns a string visualization of the given string, interpreting its characters via tt::visualize_bin_char.
+	// Returns a string visualization of the given string, interpreting its characters via tt::vis_bin_char.
 	// This is intended to provide a visualization of the binary of a string, including all hidden characters.
 	// If multiline is true, a newline will be inserted following every line-feed (aka. '\n') encountered.
 	template<typename Char>
-	inline tt_string visualize_bin_string(std::basic_string_view<Char> x, tt_bool multiline = true) {
+	inline tt_string vis_bin_string(std::basic_string_view<Char> x, tt_bool multiline = true) {
 
 
 		tt_string r;
@@ -288,7 +288,7 @@ namespace tt {
 		for (auto& I : x) {
 
 
-			r += tt::visualize_bin_char<Char>(I);
+			r += tt::vis_bin_char<Char>(I);
 
 			if (multiline && I == (Char)'\n')
 				r += (Char)'\n';
@@ -297,29 +297,29 @@ namespace tt {
 		return r;
 	}
 
-	// Returns a string visualization of the given string, interpreting its characters via tt::visualize_bin_char.
+	// Returns a string visualization of the given string, interpreting its characters via tt::vis_bin_char.
 	// This is intended to provide a visualization of the binary of a string, including all hidden characters.
 	// If multiline is true, a newline will be inserted following every line-feed (aka. '\n') encountered.
 	template<typename Char>
-	inline tt_string visualize_bin_string(const std::basic_string<Char>& x, tt_bool multiline = true) {
+	inline tt_string vis_bin_string(const std::basic_string<Char>& x, tt_bool multiline = true) {
 
 
-		return tt::visualize_bin_string<Char>((std::basic_string_view<Char>)x, multiline);
+		return tt::vis_bin_string<Char>((std::basic_string_view<Char>)x, multiline);
 	}
 
-	// Returns a string visualization of the given string, interpreting its characters via tt::visualize_bin_char.
+	// Returns a string visualization of the given string, interpreting its characters via tt::vis_bin_char.
 	// This is intended to provide a visualization of the binary of a string, including all hidden characters.
 	// If multiline is true, a newline will be inserted following every line-feed (aka. '\n') encountered.
 	template<typename Char>
-	inline tt_string visualize_bin_string(const Char* const x, tt_bool multiline = true) {
+	inline tt_string vis_bin_string(const Char* const x, tt_bool multiline = true) {
 
 
-		return tt::visualize_bin_string<Char>(std::basic_string_view<Char>(x), multiline);
+		return tt::vis_bin_string<Char>(std::basic_string_view<Char>(x), multiline);
 	}
 
-	// Returns a string visualization of the given string, using tt::visualize_bin_string if binary is true.
+	// Returns a string visualization of the given string, using tt::vis_bin_string if binary is true.
 	template<typename Char>
-	inline tt_string visualize_string(std::basic_string_view<Char> x, tt_bool binary = false, tt_bool multiline_if_binary = true) {
+	inline tt_string vis_string(std::basic_string_view<Char> x, tt_bool binary = false, tt_bool multiline_if_binary = true) {
 
 
 		tt_string r{};
@@ -333,31 +333,31 @@ namespace tt {
 				r += (tt_char)I;
 		}
 		else
-			r = tt::visualize_bin_string(x, multiline_if_binary);
+			r = tt::vis_bin_string(x, multiline_if_binary);
 
 		return r;
 	}
 
-	// Returns a string visualization of the given string, using tt::visualize_bin_string if binary is true.
+	// Returns a string visualization of the given string, using tt::vis_bin_string if binary is true.
 	template<typename Char>
-	inline tt_string visualize_string(const std::basic_string<Char>& x, tt_bool binary = false, tt_bool multiline_if_binary = true) {
+	inline tt_string vis_string(const std::basic_string<Char>& x, tt_bool binary = false, tt_bool multiline_if_binary = true) {
 
 
-		return tt::visualize_string<Char>((std::basic_string_view<Char>)x, binary, multiline_if_binary);
+		return tt::vis_string<Char>((std::basic_string_view<Char>)x, binary, multiline_if_binary);
 	}
 
-	// Returns a string visualization of the given string, using tt::visualize_bin_string if binary is true.
+	// Returns a string visualization of the given string, using tt::vis_bin_string if binary is true.
 	template<typename Char>
-	inline tt_string visualize_string(const Char* const x, tt_bool binary = false, tt_bool multiline_if_binary = true) {
+	inline tt_string vis_string(const Char* const x, tt_bool binary = false, tt_bool multiline_if_binary = true) {
 
 
-		return tt::visualize_string<Char>(std::basic_string_view<Char>(x), binary, multiline_if_binary);
+		return tt::vis_string<Char>(std::basic_string_view<Char>(x), binary, multiline_if_binary);
 	}
 
 	// Returns a string visualization of the given iterable class, iterating it via a range-for loop.
 	// If multiline is true, the string returned will be formatted to span multiple lines, using tab for indenting.
 	template<typename Iterable>
-	inline tt_string visualize_iterable(const Iterable& x, tt_bool multiline = false, const tt_char* const tab = "    ") {
+	inline tt_string vis_iterable(const Iterable& x, tt_bool multiline = false, const tt_char* const tab = "    ") {
 
 
 		tt_string r = multiline ? "{" : "{ ";
@@ -383,7 +383,7 @@ namespace tt {
 			else
 				_not_first = true;
 
-			r += tt::visualize(I);
+			r += tt::vis(I);
 		}
 
 		r += multiline ? "\n}" : " }";

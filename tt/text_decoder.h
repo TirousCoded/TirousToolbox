@@ -23,17 +23,6 @@ namespace tt {
 		using this_t = tt::text_decoder;
 
 
-	private:
-
-		tt::text_encoding _encoding;
-
-		tt::chunk_view<1> _block;
-
-		tt_size _pos;
-
-
-	public:
-
 		// Default initializes a text encoder.
 		inline text_decoder() noexcept {
 
@@ -170,6 +159,15 @@ namespace tt {
 
 			return r;
 		}
+
+
+	private:
+
+		tt::text_encoding _encoding;
+
+		tt::chunk_view<1> _block;
+
+		tt_size _pos;
 	};
 }
 

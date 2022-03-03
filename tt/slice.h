@@ -58,15 +58,6 @@ namespace tt {
 		using const_reverse_iterator = std::reverse_iterator<const_iterator>;
 
 
-	private:
-
-		pointer _data;
-
-		tt_size _size;
-
-
-	public:
-
 		// Default initializes an empty slice.
 		inline slice() noexcept {
 
@@ -345,10 +336,10 @@ namespace tt {
 		}
 
 		// Returns a string visualization of the slice.
-		inline tt_string visualize() const {
+		inline tt_string vis() const {
 
 
-			return tt::visualize_iterable(*this);
+			return tt::vis_iterable(*this);
 		}
 
 		// Returns a hash of the slice.
@@ -398,6 +389,13 @@ namespace tt {
 
 		// Resets the slice, unbinding it, and making it into an empty slice.
 		inline this_t& reset() noexcept { return *this = {}; }
+
+
+	private:
+
+		pointer _data;
+
+		tt_size _size;
 	};
 
 	// Returns a slice of the given array of values.

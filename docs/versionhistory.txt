@@ -48,3 +48,38 @@ Version 1.2 (November 26th, 2021)
 	  See docs/crashcourse.txt for details.
 
 
+Version 2.0 (March 3rd, 2022)
+
+
+	- Major library revision following (...the failure of) my latest project, with me 
+	  releasing this update in preparation for my next project (which is attempt #2, lol.)
+
+	- Mostly just library removals, actually, with me cleaning out a lot of old stuff
+	  that never actually ended up being useful.
+
+	- Removed ALL *fancy pointer* stuff, including the library's custom scoped and shared
+	  pointer implementations, which turned out to just be inferior versions to the 
+	  standard library ones, with me never ending-up using them.
+
+	- Completely removed the above *home source file* notion from the library, due to the
+	  removal of the above fancy pointer stuff, and thus the stray global variable which
+	  forced the creation of the home source file system to make the library compile.
+
+	- Completely removed aliases like tt::vector and tt::hash_map, which were aliases
+	  of things like std::vector and std::unordered_map, because they only added complexity,
+	  and were never actually used.
+
+	- Changes the 'visualize' function of the library's string visualization system to now
+	  be the 'vis' function. This change was made due to how the word 'visualize' made a
+	  bunch of string function names overly long, which ended up feeling gross.
+
+	- Added tt_wchar, tt_char16 and tt_char32 versions of the contents of tt/character_arrays.h, 
+	  which turned out to be pretty useful, but which weren't added yet.
+
+	- Added tt::fs as an alias of std::filesystem, to tt/file.h.
+
+	- Added tt_uintptr and tt_intptr.
+
+	- General code cleanup, reorganizing, and refactoring, with a billion minor changes 
+	  here-and-there with everything else in the library alongside the above.
+

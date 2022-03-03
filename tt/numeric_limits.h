@@ -165,5 +165,18 @@ namespace tt {
 
 	// The maximum value of tt_ssize.
 	constexpr tt_ssize max_ssize = tt::max_of<tt_ssize>;
+
+
+	// The minimum value of tt_uintptr.
+	constexpr tt_ssize min_uintptr = tt::min_of<tt_uintptr>;
+
+	// The maximum value of tt_uintptr.
+	constexpr tt_ssize max_uintptr = tt::max_of<tt_uintptr>;
+
+	// The minimum value of tt_intptr.
+	constexpr tt_size min_intptr = tt::min_of<tt_intptr>;
+
+	// The maximum value of tt_intptr.
+	constexpr tt_size max_intptr = tt::max_of<tt_intptr>;
 }
 

@@ -33,41 +33,6 @@ namespace tt {
 		using this_t = tt::range<iterator_t>;
 
 
-	private:
-
-		iterator_t _begin, _end;
-
-		mutable tt_size _cached_distance;
-		mutable tt_bool _has_cached_distance;
-
-		inline void _mutate() const noexcept {
-
-
-			_cached_distance = 0;
-			_has_cached_distance = false;
-		}
-
-		inline void _cache_distance() const {
-
-
-			if (_has_cached_distance)
-				return;
-
-			_cached_distance = std::distance(_begin, _end);
-			_has_cached_distance = true;
-		}
-
-		inline tt_size _distance() const {
-
-
-			_cache_distance();
-
-			return _cached_distance;
-		}
-
-
-	public:
-
 		// Default initializes a range.
 		inline range() noexcept {
 
@@ -174,10 +139,10 @@ namespace tt {
 		}
 
 		// Returns a string visualization of the range.
-		inline tt_string visualize() const {
+		inline tt_string vis() const {
 
 
-			return tt::visualize_iterable(*this);
+			return tt::vis_iterable(*this);
 		}
 
 		// Returns a hash of the array.
@@ -247,6 +212,39 @@ namespace tt {
 			_mutate();
 
 			TT_RETURN_THIS;
+		}
+
+
+	private:
+
+		iterator_t _begin, _end;
+
+		mutable tt_size _cached_distance;
+		mutable tt_bool _has_cached_distance;
+
+		inline void _mutate() const noexcept {
+
+
+			_cached_distance = 0;
+			_has_cached_distance = false;
+		}
+
+		inline void _cache_distance() const {
+
+
+			if (_has_cached_distance)
+				return;
+
+			_cached_distance = std::distance(_begin, _end);
+			_has_cached_distance = true;
+		}
+
+		inline tt_size _distance() const {
+
+
+			_cache_distance();
+
+			return _cached_distance;
 		}
 	};
 

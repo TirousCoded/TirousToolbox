@@ -142,19 +142,19 @@ namespace tt {
 		}
 
 		// Returns a string visualization of the tuple.
-		inline tt_string visualize() const {
+		inline tt_string vis() const {
 
 
 			tt_string r = "{ ";
 
-			r += tt::visualize(a) + ", ";
-			r += tt::visualize(b) + ", ";
-			r += tt::visualize(c) + ", ";
-			r += tt::visualize(d) + ", ";
-			r += tt::visualize(e) + ", ";
-			r += tt::visualize(f) + ", ";
-			r += tt::visualize(g) + ", ";
-			r += tt::visualize(h) + " }";
+			r += tt::vis(a) + ", ";
+			r += tt::vis(b) + ", ";
+			r += tt::vis(c) + ", ";
+			r += tt::vis(d) + ", ";
+			r += tt::vis(e) + ", ";
+			r += tt::vis(f) + ", ";
+			r += tt::vis(g) + ", ";
+			r += tt::vis(h) + " }";
 
 			return r;
 		}
@@ -281,18 +281,18 @@ namespace tt {
 		}
 
 		// Returns a string visualization of the tuple.
-		inline tt_string visualize() const {
+		inline tt_string vis() const {
 
 
 			tt_string r = "{ ";
 
-			r += tt::visualize(a) + ", ";
-			r += tt::visualize(b) + ", ";
-			r += tt::visualize(c) + ", ";
-			r += tt::visualize(d) + ", ";
-			r += tt::visualize(e) + ", ";
-			r += tt::visualize(f) + ", ";
-			r += tt::visualize(g) + " }";
+			r += tt::vis(a) + ", ";
+			r += tt::vis(b) + ", ";
+			r += tt::vis(c) + ", ";
+			r += tt::vis(d) + ", ";
+			r += tt::vis(e) + ", ";
+			r += tt::vis(f) + ", ";
+			r += tt::vis(g) + " }";
 
 			return r;
 		}
@@ -408,17 +408,17 @@ namespace tt {
 		}
 
 		// Returns a string visualization of the tuple.
-		inline tt_string visualize() const {
+		inline tt_string vis() const {
 
 
 			tt_string r = "{ ";
 
-			r += tt::visualize(a) + ", ";
-			r += tt::visualize(b) + ", ";
-			r += tt::visualize(c) + ", ";
-			r += tt::visualize(d) + ", ";
-			r += tt::visualize(e) + ", ";
-			r += tt::visualize(f) + " }";
+			r += tt::vis(a) + ", ";
+			r += tt::vis(b) + ", ";
+			r += tt::vis(c) + ", ";
+			r += tt::vis(d) + ", ";
+			r += tt::vis(e) + ", ";
+			r += tt::vis(f) + " }";
 
 			return r;
 		}
@@ -523,16 +523,16 @@ namespace tt {
 		}
 
 		// Returns a string visualization of the tuple.
-		inline tt_string visualize() const {
+		inline tt_string vis() const {
 
 
 			tt_string r = "{ ";
 
-			r += tt::visualize(a) + ", ";
-			r += tt::visualize(b) + ", ";
-			r += tt::visualize(c) + ", ";
-			r += tt::visualize(d) + ", ";
-			r += tt::visualize(e) + " }";
+			r += tt::vis(a) + ", ";
+			r += tt::vis(b) + ", ";
+			r += tt::vis(c) + ", ";
+			r += tt::vis(d) + ", ";
+			r += tt::vis(e) + " }";
 
 			return r;
 		}
@@ -626,15 +626,15 @@ namespace tt {
 		}
 
 		// Returns a string visualization of the tuple.
-		inline tt_string visualize() const {
+		inline tt_string vis() const {
 
 
 			tt_string r = "{ ";
 
-			r += tt::visualize(a) + ", ";
-			r += tt::visualize(b) + ", ";
-			r += tt::visualize(c) + ", ";
-			r += tt::visualize(d) + " }";
+			r += tt::vis(a) + ", ";
+			r += tt::vis(b) + ", ";
+			r += tt::vis(c) + ", ";
+			r += tt::vis(d) + " }";
 
 			return r;
 		}
@@ -717,14 +717,14 @@ namespace tt {
 		}
 
 		// Returns a string visualization of the tuple.
-		inline tt_string visualize() const {
+		inline tt_string vis() const {
 
 
 			tt_string r = "{ ";
 
-			r += tt::visualize(a) + ", ";
-			r += tt::visualize(b) + ", ";
-			r += tt::visualize(c) + " }";
+			r += tt::vis(a) + ", ";
+			r += tt::vis(b) + ", ";
+			r += tt::vis(c) + " }";
 
 			return r;
 		}
@@ -796,13 +796,13 @@ namespace tt {
 		}
 
 		// Returns a string visualization of the tuple.
-		inline tt_string visualize() const {
+		inline tt_string vis() const {
 
 
 			tt_string r = "{ ";
 
-			r += tt::visualize(a) + ", ";
-			r += tt::visualize(b) + " }";
+			r += tt::vis(a) + ", ";
+			r += tt::vis(b) + " }";
 
 			return r;
 		}
@@ -863,12 +863,12 @@ namespace tt {
 		}
 
 		// Returns a string visualization of the tuple.
-		inline tt_string visualize() const {
+		inline tt_string vis() const {
 
 
 			tt_string r = "{ ";
 
-			r += tt::visualize(a) + " }";
+			r += tt::vis(a) + " }";
 
 			return r;
 		}

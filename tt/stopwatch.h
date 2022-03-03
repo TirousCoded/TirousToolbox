@@ -26,45 +26,6 @@ namespace tt {
 		using this_t = tt::stopwatch_class<time_value_t>;
 
 
-	private:
-
-		tt_size _intervals;
-
-		tt_bool _running;
-
-		time_value_t _last_start, _last_stop, _last_interval, _total;
-
-		inline void _copy(const this_t& x) noexcept {
-
-
-			TT_COPY(_intervals, x);
-
-			TT_COPY(_running, x);
-
-			TT_COPY(_last_start, x);
-			TT_COPY(_last_stop, x);
-			TT_COPY(_last_interval, x);
-
-			TT_COPY(_total, x);
-		}
-
-		inline void _move(this_t&& x) noexcept {
-
-
-			TT_MOVE(_intervals, x);
-
-			TT_MOVE(_running, x);
-
-			TT_MOVE(_last_start, x);
-			TT_MOVE(_last_stop, x);
-			TT_MOVE(_last_interval, x);
-
-			TT_MOVE(_total, x);
-		}
-
-
-	public:
-
 		// Default initializes a stopwatch.
 		inline stopwatch_class() noexcept {
 			
@@ -187,6 +148,43 @@ namespace tt {
 			_total = time_value_t::zero();
 
 			TT_RETURN_THIS;
+		}
+
+
+	private:
+
+		tt_size _intervals;
+
+		tt_bool _running;
+
+		time_value_t _last_start, _last_stop, _last_interval, _total;
+
+		inline void _copy(const this_t& x) noexcept {
+
+
+			TT_COPY(_intervals, x);
+
+			TT_COPY(_running, x);
+
+			TT_COPY(_last_start, x);
+			TT_COPY(_last_stop, x);
+			TT_COPY(_last_interval, x);
+
+			TT_COPY(_total, x);
+		}
+
+		inline void _move(this_t&& x) noexcept {
+
+
+			TT_MOVE(_intervals, x);
+
+			TT_MOVE(_running, x);
+
+			TT_MOVE(_last_start, x);
+			TT_MOVE(_last_stop, x);
+			TT_MOVE(_last_interval, x);
+
+			TT_MOVE(_total, x);
 		}
 	};
 }

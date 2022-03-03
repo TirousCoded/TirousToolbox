@@ -23,19 +23,6 @@ namespace tt {
 		using this_t = hash_factory;
 
 
-	private:
-
-		// The 'product' being hashed. This value starts off as our first prime.
-
-		tt_size _product;
-
-		// The second prime needed to add sub-hashes. Unlike the first, this one needs to be stored.
-
-		tt_size _prime;
-
-
-	public:
-
 		// Default initializes a hash factory.
 		inline hash_factory() = delete;
 
@@ -72,7 +59,6 @@ namespace tt {
 			
 			
 			_product *= _prime;
-
 			_product += hash_code;
 
 			TT_RETURN_THIS;
@@ -85,6 +71,17 @@ namespace tt {
 
 			return add_code(std::hash<Value>()(x));
 		}
+
+
+	private:
+
+		// The 'product' being hashed. This value starts off as our first prime.
+
+		tt_size _product;
+
+		// The second prime needed to add sub-hashes. Unlike the first, this one needs to be stored.
+
+		tt_size _prime;
 	};
 }
 

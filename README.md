@@ -15,5 +15,3 @@ There's not currently a full-on manual, nor a wiki, but I hope that this quick c
 # License
 
 The TirousToolbox is distributed under the Apache License 2.0.
-
-Copyright (c) 2021 Luther E. Barlow, author of the TirousToolbox library

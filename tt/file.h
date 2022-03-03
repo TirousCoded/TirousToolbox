@@ -17,11 +17,19 @@
 namespace tt {
 
 
+	namespace fs = std::filesystem;
+}
+
+using tt_filepath = tt::fs::path;
+
+namespace tt {
+
+
 	// Returns the file path associated with the current working directory.
 	inline tt_filepath working_directory() {
 
 
-		return std::filesystem::current_path();
+		return tt::fs::current_path();
 	}
 
 	// Returns if the file at x exists or not.

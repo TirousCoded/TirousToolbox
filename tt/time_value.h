@@ -120,7 +120,7 @@ namespace tt {
 		// Returns a string visualization of the time value as a 24-hour clock, with optional components.
 		// If any of the given include_* arguments are false, their respective time unit is omitted from the visualization.
 		// If include_millisecs is false, include_microsecs will be set to false.
-		inline tt_string visualize(tt_bool include_days = true, tt_bool include_millisecs = true, tt_bool include_microsecs = true) const noexcept {
+		inline tt_string vis(tt_bool include_days = true, tt_bool include_millisecs = true, tt_bool include_microsecs = true) const noexcept {
 
 
 			auto _days = count_days();
@@ -133,27 +133,27 @@ namespace tt {
 			tt_string r{};
 
 			if (include_days)
-				r += tt::visualize_uint(_days),
+				r += tt::vis_uint(_days),
 				r += ':';
 
 			if (_hours < 10)
 				r += '0';
 
-			r += tt::visualize_uint(_hours);
+			r += tt::vis_uint(_hours);
 
 			r += ':';
 
 			if (_minutes < 10)
 				r += '0';
 
-			r += tt::visualize_uint(_minutes);
+			r += tt::vis_uint(_minutes);
 
 			r += ':';
 
 			if (_seconds < 10)
 				r += '0';
 
-			r += tt::visualize_uint(_seconds);
+			r += tt::vis_uint(_seconds);
 
 			if (include_millisecs) {
 
@@ -166,7 +166,7 @@ namespace tt {
 				if (_millisecs < 10)
 					r += '0';
 
-				r += tt::visualize_uint(_millisecs);
+				r += tt::vis_uint(_millisecs);
 
 				if (include_millisecs) {
 
@@ -177,7 +177,7 @@ namespace tt {
 					if (_microsecs < 10)
 						r += '0';
 
-					r += tt::visualize_uint(_microsecs);
+					r += tt::vis_uint(_microsecs);
 				}
 			}
 
@@ -375,7 +375,7 @@ namespace tt {
 		// If any of the given include_* arguments are false, their respective time unit is omitted from the visualization.
 		// If include_millisecs is false, include_microsecs will be set to false.
 		// If, following the above, include_microsecs is false, include_nanosecs will be set to false.
-		inline tt_string visualize(tt_bool include_days = true, tt_bool include_millisecs = true, tt_bool include_microsecs = true, tt_bool include_nanosecs = true) const noexcept {
+		inline tt_string vis(tt_bool include_days = true, tt_bool include_millisecs = true, tt_bool include_microsecs = true, tt_bool include_nanosecs = true) const noexcept {
 
 
 			auto _days = count_days();
@@ -389,27 +389,27 @@ namespace tt {
 			tt_string r{};
 
 			if (include_days)
-				r += tt::visualize_uint(_days),
+				r += tt::vis_uint(_days),
 				r += ':';
 
 			if (_hours < 10)
 				r += '0';
 
-			r += tt::visualize_uint(_hours);
+			r += tt::vis_uint(_hours);
 
 			r += ':';
 
 			if (_minutes < 10)
 				r += '0';
 
-			r += tt::visualize_uint(_minutes);
+			r += tt::vis_uint(_minutes);
 
 			r += ':';
 
 			if (_seconds < 10)
 				r += '0';
 
-			r += tt::visualize_uint(_seconds);
+			r += tt::vis_uint(_seconds);
 
 			if (include_millisecs) {
 
@@ -422,7 +422,7 @@ namespace tt {
 				if (_millisecs < 10)
 					r += '0';
 
-				r += tt::visualize_uint(_millisecs);
+				r += tt::vis_uint(_millisecs);
 
 				if (include_millisecs) {
 
@@ -433,7 +433,7 @@ namespace tt {
 					if (_microsecs < 10)
 						r += '0';
 
-					r += tt::visualize_uint(_microsecs);
+					r += tt::vis_uint(_microsecs);
 
 					if (include_nanosecs) {
 
@@ -444,7 +444,7 @@ namespace tt {
 						if (_nanosecs < 10)
 							r += '0';
 
-						r += tt::visualize_uint(_nanosecs);
+						r += tt::vis_uint(_nanosecs);
 					}
 				}
 			}

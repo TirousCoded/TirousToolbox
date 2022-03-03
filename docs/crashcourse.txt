@@ -9,7 +9,7 @@
 	never even brought up at all.
 
 	This is not a highly detailed manual, you can read the source code for that. Instead, 
-	it's intended to provide the information required to use the library and use it properly.
+	it's intended to provide the information required to get started using the library.
 
 	Thus, to any new users of the Tirous Toolbox library, do give this document a quick
 	read to get up-to-speed regarding what it is and how to use it.
@@ -23,20 +23,6 @@
 
 	The library is a header-only library, with no external dependencies, nor any external 
 	linkage to resolve. Thus, to use the library one need only include its header files.
-
-	There is one exception to this however: the library defines things like global variables
-	(see tt/shared.h) which must be defined in one and only one translation unit 
-	(aka. *.cpp file) in order to link correctly.
-
-	Thus, the library requires its users to select a *.cpp file to act as the 'home source
-	file' of the library, to implement these linkage-sensitive details.
-
-	To do this, select a source file to be this home source file, and do the following:
-
-		1. add the line '#define TT_HOME_SOURCE_FILE' at the top of the file, and
-
-		2. follow this with an include of tt/groups/home_cpp_file.h, in order to define
-		   everything that needs to be defined across translation units.
 
 
  -- LIBRARY CONFIGURATION --
@@ -60,7 +46,7 @@
 								The most notable affect of this is in regards to how it
 								makes the library use _aligned_malloc, instead of the
 								standard library std::aligned_alloc, which isn't available
-								on MSVC for compatibility reasons.
+								on MSVC for compatibility reasons with Win32.
 
 		TT_CONFIG_64BIT			Makes the library compile for 64-bit platforms.
 
@@ -91,24 +77,16 @@
 
 
 	One thing you'll notice about the Tirous Toolbox is my personal love of making
-	my code look all pretty and what-not via the use of MANY, often somewhat pointless,
+	my code look all pretty and what-not via the use of MANY, sometimes pointless,
 	type aliases.
 
 	In the global namespace, there are a number of basic type aliases which use a 
 	C-style tt_* naming convention.
 
-	There are aliases for standard library datastructures, with tt::hash_map, for example, 
-	being an alias of the standard library std::unordered_map, renamed to be more STL-like.
+	Alongside these, there are aliases for string types, like tt_string, and file paths
+	via tt_filepath (in tt/file.h).
 
-	One stupid little issue which can arise from this is that using tt::hash_map may
-	result in an unresolved external symbol error due to the fact that the header file
-	which defines it forward declares std::unordered_map, but obviously doesn't define it.
-
-	Thus, when using things like tt::hash_map, but sure to consider whether or not it's
-	an actual seperate class, or if it's an alias, and if the ladder, be sure to remember
-	that the standard library header file may not be included by the alias' header file.
-
-	If you think my library is stupid for this little rule, that's fair... I can't help it...
+	If you think is silly of me to do, that's fair... but I can't help it. :)
 
 
  -- EXCEPTIONS & DEBUGGING --
@@ -156,7 +134,7 @@
 	as will be explained below.
 
 	They also participate in the library's even fancier 'string visualization' system, and
-	can be visualized in a really nice, formatted, fashion with their 'visualize' function.
+	can be visualized in a really nice, formatted, fashion with their 'vis' function.
 
 	See source code for more details regarding these structs.
 
@@ -211,26 +189,6 @@
 	They also define a notion of a 'null' state.
 
 
- -- SCOPED & SHARED POINTERS --
-
-
-	The Tirous Toolbox library defines custom unique and shared pointer classes 
-	called tt::scoped and tt::shared, respectively.
-
-	These are not type aliases.
-
-	These were developed to ensure that they can operate using the above described
-	deleter and packaged deletion systems.
-
-	In particular, tt::shared employs a notion of a 'shared state object' in the
-	form of a tt::shared_state class, allowing for better use of shared pointers 
-	in multi-threaded contexts, by giving the user direct control over this shared 
-	state. Thus, the default non-thread-safe shared state is simply that, a default.
-
-	These objects are initialized via the use of static functions, and both define 
-	a notion of being 'null'.
-
-
  -- BYTE ORDER (aka. ENDIANNESS) --
 
 
@@ -251,11 +209,13 @@
  -- CUSTOM DATA STRUCTURES --
 
 
-	Alongside the above-mentioned standard library container type aliases, the 
-	Tirous Toolbox library does define a few of its own container classes.
+	The Tirous Toolbox library does defines a few custom container classes.
 
 	The first is tt::slice, which is a simple array-like slice memory view 
 	object, which are initialized via tt::slice_of.
+
+	Slices can be made const by having their template argument be const,
+	like having a tt::slice<const tt_int>, for example.
 
 	The second is tt::range, which describes an iterator range, intended for
 	things like linked-list style containers, and for iteration. These are
@@ -265,11 +225,13 @@
 	of simple iterators over contiguous arrays of object, such as for containers,
 	or memory interpretation.
 
-	The third custom container is the tt::tuple struct, which while incompatible
+	The third custom container is the tt::tuple_struct, which while incompatible
 	with, and less powerful than, the standard library tuple class, is nevertheless
 	WAY more user friendly, and WAY more intuitive to actually use.
 
 	Again, these are initialized via tt::tuple_of.
+
+	In practice, you'll want to use the tt_tuple aliases of tt::tuple_struct.
 
 	The last custom 'container' is tt::chunk, which is a simple buffer of typeless,
 	uninitialized memory under a strict alignment. This class is notable as it 
@@ -324,8 +286,8 @@
 	a nicely formatted (more or less) string representation of a given object, which
 	helps in the development of things like diagnostics.
 
-	Classes define a 'tt_string visualize() const' member function, and then a
-	specialization of tt::visualizer is made, which invokes this visualize method,
+	Classes define a 'tt_string vis() const' member function, and then a
+	specialization of tt::visualizer is made, which invokes this vis method,
 	registering that class with the library's visualization system.
 
 	This system, operating off of tt::visualizer specializations, employs a system
@@ -337,6 +299,9 @@
 	with these being the the default 'printing' functions of the library. Put simply,
 	one enters a sequence of visualizable objects, and the fprint function prints
 	then interpolated to the console, or via something like tt::fprint_s, to a string.
+
+	Originally the 'vis' function was named 'visualize', but when used in longer names
+	this, in practice, made me want to scream, so I changed it.
 
 
  -- UNICODE & TEXT ENCODING --
@@ -387,7 +352,7 @@
 	Finally, the library also provides support for base64 and low-level parsing.
 
 
- -- FILES & FILESYSTEM
+ -- FILES & FILESYSTEM --
 
 
 	The Tirous Toolbox library provides some quality-of-life utilities to aid in
@@ -398,4 +363,7 @@
 	use of chunks, for things like text file loading.
 
 	In particular, these work well alongside things like text encoding translation.
+
+	An shorter alias of std::filesystem is available in the form of tt::fs, available
+	in tt/file.h, as per usual.
 

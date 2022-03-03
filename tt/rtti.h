@@ -70,7 +70,7 @@ namespace tt {
 		}
 
 		// Returns a string visualization of the RTTI.
-		inline tt_string visualize() const {
+		inline tt_string vis() const {
 
 
 			return tt_string(name());

@@ -15,12 +15,12 @@ namespace tt {
 
 
 	// A C-string detailing the Tirous Toolbox library's version.
-	constexpr const tt_char* const api_version_cstr = "version 1.2";
+	constexpr const tt_char* const api_version_cstr = "version 2.0";
 
 	// A value detailing the major level version number of the Tirous Toolbox library.
-	constexpr tt_size api_version_major = 1;
+	constexpr tt_size api_version_major = 2;
 
 	// A value detailing the major level version number of the Tirous Toolbox library.
-	constexpr tt_size api_version_minor = 2;
+	constexpr tt_size api_version_minor = 0;
 }
 

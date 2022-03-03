@@ -39,13 +39,6 @@ namespace tt {
 		using iterator_category = std::random_access_iterator_tag;
 
 
-	private:
-
-		pointer _value;
-
-
-	public:
-
 		// Default initializes a nullptr contiguous iterator.
 		// Contiguous iterators which are nullptr are not treated as past-the-end iterators.
 		inline contiguous_iterator() noexcept { _value = nullptr; }
@@ -117,6 +110,11 @@ namespace tt {
 
 		inline this_t& operator+=(difference_type x) { _value += x; TT_RETURN_THIS; }
 		inline this_t& operator-=(difference_type x) { _value -= x; TT_RETURN_THIS; }
+
+
+	private:
+
+		pointer _value;
 	};
 
 	template<typename Value>

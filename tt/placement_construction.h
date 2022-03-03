@@ -41,7 +41,7 @@ namespace tt {
 		if constexpr (!std::is_trivially_destructible_v<Value>)
 			if (x)
 				TT_FOR(i, n)
-				(x + i)->~Value();
+					(x + i)->~Value();
 	}
 
 	// Placement-constructs the given type at the given address, using the given parameters.

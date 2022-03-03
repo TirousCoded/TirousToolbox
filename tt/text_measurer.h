@@ -23,15 +23,6 @@ namespace tt {
 		using this_t = tt::text_measurer;
 
 
-	private:
-
-		tt::text_encoding _encoding;
-
-		tt_size _bytes;
-
-
-	public:
-
 		// Default initializes a text measurer.
 		inline text_measurer() noexcept {
 
@@ -133,6 +124,13 @@ namespace tt {
 
 			return r;
 		}
+
+
+	private:
+
+		tt::text_encoding _encoding;
+
+		tt_size _bytes;
 	};
 }
 

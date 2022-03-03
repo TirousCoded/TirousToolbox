@@ -301,7 +301,7 @@ namespace tt {
 		// If n is zero, the visualization will continue to the end of the chunk view.
 		// If ind is out-of-range, or n makes it extend out-of-range, the block visualized will be reduced to fit, or reduced to zero.
 		// Unless otherwise specified, indices and sizes in chunk views are measured in alignment-sized 'units' of bytes.
-		inline tt_string visualize(tt_size ind = 0, tt_size n = 0) const {
+		inline tt_string vis(tt_size ind = 0, tt_size n = 0) const {
 
 
 			if (n == 0)
@@ -320,7 +320,7 @@ namespace tt {
 			r.reserve(nn * 2U);
 
 			TT_FOR(i, nn)
-				r += tt::visualize_byte_hex(*get_byte_unchecked(i), true);
+				r += tt::vis_byte_hex(*get_byte_unchecked(i), true);
 
 			return tt::fprint_s("{ index=", ind, ", bytes=", size_bytes(), ", unit bytes=", unit_bytes(), ", ", r, " }");
 		}
@@ -1061,7 +1061,7 @@ namespace tt {
 		// If n is zero, the visualization will continue to the end of the chunk.
 		// If ind is out-of-range, or n makes it extend out-of-range, the block visualized will be reduced to fit, or reduced to zero.
 		// Unless otherwise specified, indices and sizes in chunks are measured in alignment-sized 'units' of bytes.
-		inline tt_string visualize(tt_size ind = 0, tt_size n = 0) const {
+		inline tt_string vis(tt_size ind = 0, tt_size n = 0) const {
 
 
 			if (n == 0)
@@ -1080,7 +1080,7 @@ namespace tt {
 			r.reserve(nn * 2U);
 
 			TT_FOR(i, nn)
-				r += tt::visualize_byte_hex(*get_byte_unchecked(i), true);
+				r += tt::vis_byte_hex(*get_byte_unchecked(i), true);
 
 			return tt::fprint_s("{ index=", ind, ", bytes=", size_bytes(), ", unit bytes=", unit_bytes(), ", ", r, " }");
 		}
