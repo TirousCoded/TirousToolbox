@@ -18,11 +18,6 @@
 #include <string>
 #include <string_view>
 
-// this is used to include unique, shared, and weak pointers, as these'll
-// be common enough in usage for us to include them basically everywhere
-
-#include <memory>
-
 
 using tt_int8 = int8_t;
 using tt_int16 = int16_t;
