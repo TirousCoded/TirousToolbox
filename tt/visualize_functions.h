@@ -7,6 +7,7 @@
 
 
 #include "aliases.h"
+#include "debug.h"
 
 #include "visualizer.h"
 
