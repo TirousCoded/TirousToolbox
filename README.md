@@ -8,7 +8,7 @@ It provides a bunch of useful everyday tools which I personally use in all of my
 
 The library is a simple header-only library, so no complex linkage or cmake stuff to worry about.
 
-See "docs/crashcourse.txt" for a quick rundown of the library, what it provides, how to set it up, and how to configure it.
+See "docs/crashcourse.txt" for a quick rundown of the library, what it provides, how to set it up, and how to configure it to meet your needs.
 
 There's not currently a full-on manual, nor a wiki, but I hope that this quick crashcourse.txt will provide enough information to start using the library without too much confusion.
 
