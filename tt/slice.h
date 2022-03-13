@@ -264,7 +264,7 @@ namespace tt {
 			if (n == 0)
 				return this_t();
 
-			return this_t(data() + ind, n);
+			return this_t((pointer)(data() + ind), n);
 		}
 
 		// Returns a slice of the elements of the container at and following the element at index ind.
