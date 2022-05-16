@@ -8,6 +8,8 @@
 
 #include "aliases.h"
 
+#include "endian.h"
+
 
 namespace tt {
 

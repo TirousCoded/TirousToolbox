@@ -9,6 +9,7 @@
 #include "aliases.h"
 
 #include "endian.h"
+#include "memory_util.h"
 
 
 namespace tt {
