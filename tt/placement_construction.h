@@ -219,9 +219,11 @@ namespace tt {
 
 
 			// Unlike the above, we can presume that move-construction *shouldn't ever* throw.
-
+#pragma warning(push)
+#pragma warning(disable : 26800)
 			TT_FOR(i, n)
 				:: new (x + i) Value(std::move(*(y + i)));
+#pragma warning(pop)
 		}
 
 		return x;

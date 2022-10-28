@@ -53,6 +53,10 @@
 								The library was developed for 64-bit platforms, but is 
 								nevertheless 32-bit by default.
 
+		TT_CONFIG_LOG_EXCEPTS	Makes it so TT_THROW prints exception information.
+
+								This may be wanted when debugging, but it's not thread-safe.
+
 
  -- LIBRARY STRUCTURE --
 

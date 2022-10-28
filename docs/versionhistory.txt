@@ -83,3 +83,9 @@ Version 2.0 (March 3rd, 2022)
 	- General code cleanup, reorganizing, and refactoring, with a billion minor changes 
 	  here-and-there with everything else in the library alongside the above.
 
+
+Version 2.1 (October 28th, 2022)
+
+
+	- Made it so that TT_CONFIG_LOG_EXCEPTS has to be defined in order for TT_THROW to print.
+

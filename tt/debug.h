@@ -40,7 +40,11 @@ struct struct_name final : public std::exception { \
 }
 
 
-#define ___TT_THROW(struct_name, message) TT_PRINTERRL("TT EXCEPTION\nEXCEPTION: " << TT_XSTR(struct_name) << "\nMESSAGE: " << message), throw struct_name(message)
+#ifdef TT_CONFIG_LOG_EXCEPTS
+#define ___TT_THROW(struct_name, message) (TT_PRINTERRL("TT EXCEPTION\nEXCEPTION: " << TT_XSTR(struct_name) << "\nMESSAGE: " << message), throw struct_name(message))
+#else
+#define ___TT_THROW(struct_name, message) (throw struct_name(message))
+#endif
 
 // A helper macro used to throw exceptions formed via TT_EXCEPTION_STRUCT.
 #define TT_THROW(struct_name, message) TT_NO_RETURN(___TT_THROW(struct_name, message))

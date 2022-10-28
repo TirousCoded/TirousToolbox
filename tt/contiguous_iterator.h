@@ -68,7 +68,7 @@ namespace tt {
 		// won't potentially fall into the trap of going about doing so.
 
 		// Returns the const-iterator equivalent of this iterator.
-		inline tt::contiguous_iterator<value_t> to_const() const noexcept {
+		inline tt::contiguous_iterator<std::add_const_t<value_t>> to_const() const noexcept {
 
 
 			return tt::contiguous_iterator<std::add_const_t<value_t>>(get());
