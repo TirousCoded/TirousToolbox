@@ -13,7 +13,8 @@
 #include <exception>
 
 #include "aliases.h"
-#include "config.h"
+#include "compiler_detect.h"
+//#include "config.h"
 #include "macros.h"
 
 
@@ -67,7 +68,7 @@ namespace tt {
 
 			TT_PRINTERRL("TT ASSERT FAILED\nCONDITION: " << condition << "\nFILE: " << file << "\nLINE: " << line);
 
-#if defined (TT_CONFIG_MSVC)
+#if defined(TT_COMPILER_IS_MSVC)
 			__debugbreak();
 #else
 			std::abort();

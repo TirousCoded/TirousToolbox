@@ -7,7 +7,8 @@
 
 
 #include "aliases.h"
-#include "config.h"
+#include "compiler_detect.h"
+//#include "config.h"
 #include "macros.h"
 
 
@@ -95,7 +96,7 @@ namespace tt {
 		else if (alignment == 0)
 			return nullptr;
 
-#if defined (TT_CONFIG_MSVC)
+#if defined(TT_COMPILER_IS_MSVC)
 		return (Value*)_aligned_malloc(n * sizeof(Value), alignment);
 #else
 		return (Value*)std::aligned_alloc(alignment, n * sizeof(Value));
@@ -112,7 +113,7 @@ namespace tt {
 		if (!(x))
 			return;
 
-#if defined (TT_CONFIG_MSVC)
+#if defined(TT_COMPILER_IS_MSVC)
 		_aligned_free((void*)x);
 #else
 		std::free((void*)x);

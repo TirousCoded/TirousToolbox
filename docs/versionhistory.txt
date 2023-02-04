@@ -89,3 +89,15 @@ Version 2.1 (October 28th, 2022)
 
 	- Made it so that TT_CONFIG_LOG_EXCEPTS has to be defined in order for TT_THROW to print.
 
+
+Version 2.2 (February 4th, 2023)
+
+
+	- Added tt/compiler_detect.h, allowing the library to detect the current compiler.
+	
+	- Removed TT_CONFIG_MSVC in a *backwards compatibile* manner (which is pointless since 
+	  I'm the only one using the library, lol.)
+
+	- Added (hopefully) *portable* TT_DISABLE_WARNING[_PUSH/POP] preprocessor definitions/macros
+	  to tt/macros.h, which I think are pretty sweet.
+

@@ -45,6 +45,7 @@ using tt_float = float;
 using tt_double = double;
 using tt_ldouble = long double;
 
+
 using tt_bool = bool;
 
 
@@ -68,6 +69,7 @@ using tt_unichar = tt_char32;
 
 using tt_size = std::size_t;
 using tt_ssize = std::make_signed_t<tt_size>;
+
 
 using tt_uintptr = std::uintptr_t;
 using tt_intptr = std::intptr_t;

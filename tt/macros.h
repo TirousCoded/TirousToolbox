@@ -6,6 +6,9 @@
 // A header file detailing the macros of the Tirous Toolbox library.
 
 
+#include "compiler_detect.h"
+
+
 // A macro which expands to a string of x.
 // The contents of x are NOT expanded first, use TT_XSTR for that.
 #define TT_STR(x) #x
@@ -110,4 +113,25 @@
 
 // Performs a C-style pointer cast to reinterpret the given lvalue as an lvalue of the given type.
 #define TT_REINTERPRET(new_type, x) (*(new_type*)&(x))
+
+
+// NOTE: (hopefully) portable macros for disabling warnings
+
+// NOTE: see https://www.fluentcpp.com/2019/08/30/how-to-disable-a-warning-in-cpp/
+
+#if defined(TT_COMPILER_IS_MSVC)
+#define TT_DISABLE_WARNING_PUSH				__pragma(warning( push ))
+#define TT_DISABLE_WARNING_POP				__pragma(warning( pop )) 
+#define TT_DISABLE_WARNING(warning_number)	__pragma(warning( disable : warning_number ))
+#elif defined(TT_COMPILER_IS_GCC) || defined(TT_COMPILER_IS_CLANG)
+#define ___TT_DO_PRAGMA(X) _Pragma(#X)
+#define DISABLE_WARNING_PUSH				___TT_DO_PRAGMA(GCC diagnostic push)
+#define DISABLE_WARNING_POP					___TT_DO_PRAGMA(GCC diagnostic pop) 
+#define DISABLE_WARNING(warning_name)		___TT_DO_PRAGMA(GCC diagnostic ignored #warning_name)
+#else
+// NOTE: if unknown compiler, expand to empty macros which do nothing
+#define TT_DISABLE_WARNING_PUSH
+#define TT_DISABLE_WARNING_POP
+#define TT_DISABLE_WARNING(dummy)
+#endif
 

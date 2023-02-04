@@ -11,6 +11,7 @@
 
 
 #include "../aliases.h"
+#include "../compiler_detect.h"
 #include "../config.h"
 #include "../macros.h"
 #include "../debug.h"

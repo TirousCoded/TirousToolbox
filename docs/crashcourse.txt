@@ -39,14 +39,18 @@
 								enabled by default, thus require the end-user to disable
 								this custom debug mode for their release builds.
 
-		TT_CONFIG_MSVC			Specializes the library for compilation on MSVC.
-								
-								By default, no compiler-specific presumptions are made.
+								If TT_CONFIG_NO_IMPLY is not defined, and TT_CONFIG_RELEASE is
+								also not defined, TT_CONFIG_RELEASE will be *implicitly* defined
+								in the following circumstances:
 
-								The most notable affect of this is in regards to how it
-								makes the library use _aligned_malloc, instead of the
-								standard library std::aligned_alloc, which isn't available
-								on MSVC for compatibility reasons with Win32.
+									1) For MSVC, it will be defined if _DEBUG is not defined.
+
+									2) For GCC, it will be defined if NDEBUG is defined.
+
+									3) For clang, it will be defined if __OPTIMIZE__ is defined.
+
+								If the compiler detected is not MSVC, GCC, or clang, no implicit
+								definition will occur.
 
 		TT_CONFIG_64BIT			Makes the library compile for 64-bit platforms.
 
@@ -56,6 +60,9 @@
 		TT_CONFIG_LOG_EXCEPTS	Makes it so TT_THROW prints exception information.
 
 								This may be wanted when debugging, but it's not thread-safe.
+
+		TT_CONFIG_NO_IMPLY		Disables the implicit defining of otherwise undefined TT_CONFIG_*
+								preprocessor definitions.
 
 
  -- LIBRARY STRUCTURE --
@@ -91,6 +98,21 @@
 	via tt_filepath (in tt/file.h).
 
 	If you think is silly of me to do, that's fair... but I can't help it. :)
+
+
+ -- COMPILER-DETECTION --
+
+
+	So long as you're using MSVC, GCC, or clang, the Tirous Toolbox library *should* be
+	able to auto-detect the compiler being used.
+
+	See tt/compiler_detect.h for details.
+
+
+ -- PORTABLE WARNING DISABLING --
+
+
+	See tt/macros.h for (hopefully) *portable* warning disabling preprocessor definitions/macros.
 
 
  -- EXCEPTIONS & DEBUGGING --
@@ -368,6 +390,6 @@
 
 	In particular, these work well alongside things like text encoding translation.
 
-	An shorter alias of std::filesystem is available in the form of tt::fs, available
+	A shorter alias of std::filesystem is available in the form of tt::fs, available
 	in tt/file.h, as per usual.
 
