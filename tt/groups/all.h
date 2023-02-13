@@ -17,5 +17,6 @@
 #include "time.h"
 #include "text.h"
 #include "filesys.h"
+#include "multithreading.h"
 #include "misc.h"
 

@@ -139,6 +139,19 @@
 	These macros are, nevertheless, completely optional of course.
 
 
+ -- MULTI-THREADING --
+
+
+	As of version 2.3, the Tirous Toolbox offers a few simple yet powerful classes to allow
+	for proper asynchronous programming via a thread-pool and the task system thereof.
+
+	The tt::thread_pool is the thread-pool class, and tt::task and tt::regular_task allow
+	for the definition of tasks, the former in particular being an abstract base class which
+	enables the semantics of some outside system to be easily injected into the task's execution.
+
+	These can be found in tt/groups/multithreading.h.
+
+
  -- TIME & TIME KEEPING --
 
 

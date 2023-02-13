@@ -10,11 +10,7 @@
 
  -- FUTURE PLANS --
 
-
-	- cleanup our source code so it's more readable by people other than just me
-
-	- use compiler-specific macro stuff to automate the setup of TT_CONFIG_* definitions
-
+ 
 	- rewrite the API so that it can handle compilation for pre-C++17 code, which is not universal,
 	  with the Unreal Engine, as just one example, using C++14
 

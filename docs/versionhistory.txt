@@ -101,3 +101,10 @@ Version 2.2 (February 4th, 2023)
 	- Added (hopefully) *portable* TT_DISABLE_WARNING[_PUSH/POP] preprocessor definitions/macros
 	  to tt/macros.h, which I think are pretty sweet.
 
+
+Version 2.3 (February 12th, 2023)
+
+
+	- Added tt/groups/multitasking, and the tt/task.h, tt/regular_task.h, and tt/thread_pool.h 
+	  referenced therein.
+
