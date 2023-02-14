@@ -101,6 +101,7 @@ namespace tt {
 
 		// Dispatches a tt::regular_task<FType> of function f, using fargs, adding it to the task queue of the thread-pool.
 		// Returns the std::future associated with this tt::regular_task<FType> object.
+		// The FType here must be provided explicitly at the call site, and is the '<return-type>(<argument-type(s)>)' function type of f.
 		template<typename FType, typename F, typename... FArgs>
 		inline typename tt::regular_task<FType>::future_t dispatch(F&& f, FArgs&&... fargs);
 
