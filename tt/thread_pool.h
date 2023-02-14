@@ -319,7 +319,7 @@ namespace _tt {
 
 		std::unique_lock lk(state->mtx);
 
-		// NOTE: this loop handles the worker-thread responding/affecting the state of the system
+		// NOTE: this loop handles the worker-thread responding-to/affecting the state of the system
 
 		while (true) {
 
@@ -347,7 +347,7 @@ namespace _tt {
 			}
 
 
-			// if the task queue is empty, and we've not shutdown go back to sleep, or shutdown
+			// if the task queue is empty, and we've not shutdown, go back to sleep
 
 			else if (state->task_queue.empty()) {
 
