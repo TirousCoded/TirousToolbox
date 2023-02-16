@@ -13,3 +13,5 @@
 
 #include "../chunk.h"
 
+#include "../str.h"
+

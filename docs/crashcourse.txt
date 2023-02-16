@@ -272,7 +272,7 @@
 
 	In practice, you'll want to use the tt_tuple aliases of tt::tuple_struct.
 
-	The last custom 'container' is tt::chunk, which is a simple buffer of typeless,
+	The next custom 'container' is tt::chunk, which is a simple buffer of typeless,
 	uninitialized memory under a strict alignment. This class is notable as it 
 	treats uninitialized memory like a string, with concatenation, sub-'strings',
 	geometric container growth, and 'SBO' or 'Small Buffer Optimization' all being
@@ -290,6 +290,36 @@
 	That said, byte-by-byte alternatives are also available.
 
 	The tt::chunk_view class is the memory-view object associated with tt::chunk.
+
+	The final custom 'container' is tt::basic_str, which implements a 
+	C#/Java/Go/etc.-style immutable string, with all the benefits regarding things
+	like thread-safety that such strings normally provide.
+
+	There are five aliases of tt::basic_str: tt::str8, tt::str16, tt::str32, tt::str,
+	and tt::wstr, for each of the different character types.
+
+	These string implementations are modelled off of std::basic_string, except 
+	where the two, obviously, differ quite a bit, so as to feel 'normal' to use.
+
+	These string implementations provide hash precomputation.
+
+	Finally, these string implementations allow for one to take advantage of the
+	immutable nature of constant string literals by having the string taking 
+	ownership of its underlying memory be *optional*, so as to allow for these,
+	and other scenarios, to be exploited to avoid heap allocations, and propagate
+	these benefits thereafter.
+
+	In order to reliably take advantage of this when using string literals, special
+	'_tt' string literal operator overloads are provided in the 'tt::string_literals'
+	namespace, so be sure to 'using namespace tt::string_literals;' to use them.
+
+	The system is not smart enough to tell a regular C-string from a constant string
+	literal, so implicit conversion from a const CharT* into a tt::basic_str<CharT>
+	is FORBIDDEN, and must be done explicitly.
+
+	This little rule is in place to avoid the end-user accidently *implicitly*
+	causing a heap allocation in a scenario where they might incorrectly assume
+	the system is smart enough to avoid one, but end up being wrong.
 
 
  -- HASH GENERATION --
