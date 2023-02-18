@@ -250,11 +250,15 @@
 
 	The Tirous Toolbox library does defines a few custom container classes.
 
+	(tt::slice)
+
 	The first is tt::slice, which is a simple array-like slice memory view 
 	object, which are initialized via tt::slice_of.
 
 	Slices can be made const by having their template argument be const,
 	like having a tt::slice<const tt_int>, for example.
+
+	(tt::range)
 
 	The second is tt::range, which describes an iterator range, intended for
 	things like linked-list style containers, and for iteration. These are
@@ -264,6 +268,8 @@
 	of simple iterators over contiguous arrays of object, such as for containers,
 	or memory interpretation.
 
+	(tt::tuple_struct)
+
 	The third custom container is the tt::tuple_struct, which while incompatible
 	with, and less powerful than, the standard library tuple class, is nevertheless
 	WAY more user friendly, and WAY more intuitive to actually use.
@@ -271,6 +277,8 @@
 	Again, these are initialized via tt::tuple_of.
 
 	In practice, you'll want to use the tt_tuple aliases of tt::tuple_struct.
+
+	(tt::chunk)
 
 	The next custom 'container' is tt::chunk, which is a simple buffer of typeless,
 	uninitialized memory under a strict alignment. This class is notable as it 
@@ -291,7 +299,9 @@
 
 	The tt::chunk_view class is the memory-view object associated with tt::chunk.
 
-	The final custom 'container' is tt::basic_str, which implements a 
+	(tt::basic_str)
+
+	The next custom 'container' is tt::basic_str, which implements a 
 	C#/Java/Go/etc.-style immutable string, with all the benefits regarding things
 	like thread-safety that such strings normally provide.
 
@@ -320,6 +330,27 @@
 	This little rule is in place to avoid the end-user accidently *implicitly*
 	causing a heap allocation in a scenario where they might incorrectly assume
 	the system is smart enough to avoid one, but end up being wrong.
+
+	(tt::pool)
+
+	The final custom 'container' is tt::pool, which provides a map-like pool of
+	*memoized* resources associated to keys.
+
+	The end-user calls 'aquire' (or 'operator[]') on the pool, and it returns
+	a 'resource' associated with a passed 'key' value.
+
+	If the pool doesn't already contain a resource under the key value, it uses
+	a special 'builder' to create a new resource via said key, adding it to the
+	pool thusly.
+
+	If, however, the pool does already contain a resource under the key value,
+	it will simply return said *memoized* resource, not instantiating anything.
+
+	This is a powerful little class for defining a pool of memoized resources,
+	implementing a design pattern that I personally employ quite a bit, hense
+	why it was added in the first place.
+
+	See tt/pool.h for details.
 
 
  -- HASH GENERATION --

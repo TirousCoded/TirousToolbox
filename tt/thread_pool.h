@@ -127,9 +127,9 @@ namespace _tt {
 		std::mutex											mtx					= {};
 		std::condition_variable								cv					= {};
 		tt_size												active_workers		= 0;
-		std::atomic_size_t									designated_workers	= 0;
-		std::atomic_size_t									tasks				= 0;
-		std::atomic_size_t									exceptions			= 0;
+		tt_atomic_size										designated_workers	= 0;
+		tt_atomic_size										tasks				= 0;
+		tt_atomic_size										exceptions			= 0;
 		std::unordered_map<std::thread::id, std::thread>	worker_threads		= {};
 		std::queue<std::unique_ptr<tt::task>>				task_queue			= {};
 		std::promise<void>									shutdown_promise	= {};

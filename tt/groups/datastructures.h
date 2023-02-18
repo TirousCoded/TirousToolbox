@@ -15,3 +15,5 @@
 
 #include "../str.h"
 
+#include "../pool.h"
+

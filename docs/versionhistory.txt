@@ -114,3 +114,11 @@ Version 2.4 (February 15th, 2023)
 
 	- Added tt::basic_str<Char> and the type aliases thereof to tt/groups/datastructures.h.
 
+
+Version 2.5 (February 17th, 2023)
+
+
+	- Added tt::pool<Key, Resource, Builder> to tt/groups/datastructures.h.
+
+	- Added atomic aliases to tt/aliases.h.
+
