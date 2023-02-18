@@ -23,13 +23,24 @@
 					  All Resource types are expected to be move-constructable and move-assignable.
 
 		Builder		- A type who's objects can be used to take a Key object and construct its corresponding
-					  immutable Resource object.
+					  immutable Resource object. It is also expected to be able to get a Key object
+					  from a Resource object (in case the Key object's validity is tied to the lifetime 
+					  of memory of a resource, and thus the pool needs to derive a resource's key from it
+					  so that its internal storage doesn't become corrupted.)
 
-					  In specific, Builder types are expected to provide methods equivalent to this:
+					  In specific, a Builder type is expected to provide methods equivalent to these:
 
-							Resource operator()(const Key&)
+							Resource get_resource(const Key&)
 
-					  If the operator() method throws, Builder types are expected to provide a basic 
+							Key get_key(const Resource&) const noexcept
+
+					  The get_resource method builds a resource from a key.
+
+					  The get_key method gets a key associated with a resource. The key returned must
+					  be valid for at least the lifetime of the resource which produced it. The key
+					  returned must also equal the key used to produce the resource.
+
+					  If get_resource method throws, Builder types are expected to provide a basic 
 					  guarantee of exception safety.
 
 					  All Builder types are expected to be default constructable, move-constructable, 
@@ -59,21 +70,35 @@
 namespace tt {
 
 
-	// NOTE: this 'default' builder attempts to build a Resource via a constructor
+	// TODO: make tt::pool use shared pointers internally, then make it so that we can copy the pool in order
+	//		 to make a new pool which references the same (immutable) resources, as that should work, and will
+	//		 make the class WAY more flexible to actually use
+
+	// TODO: make it so that we can *inject* resources mapped to certain keys, as there may be situations where
+	//		 the end-user might want to manually establish such an association
+
+
+	// NOTE: this 'naive' builder attempts to build a Resource via a constructor
 	//		 of Resource which takes a Key object as an argument
 
 	template<typename Key, typename Resource>
-	struct build_by_construction final {
+	struct naive_builder final {
 
-		inline Resource operator()(const Key& key) {
+		inline Resource get_resource(const Key& key) {
 
 
 			return Resource(key);
 		}
+
+		inline Key get_key(const Resource& resource) const noexcept {
+
+
+			return Key(resource);
+		}
 	};
 
 
-	template<typename Key, typename Resource, typename Builder = build_by_construction<Key, Resource>>
+	template<typename Key, typename Resource, typename Builder = naive_builder<Key, Resource>>
 	class pool {
 	public:
 
@@ -186,7 +211,7 @@ namespace tt {
 			// NOTE: if this throws, the method's execution up to here means we'll provide a strong guarantee,
 			//		 with the builder in turn being expected to provide a basic guarantee for its internal state
 
-			auto res = _builder(key);
+			auto res = _builder.get_resource(key);
 
 			// NOTE: this may throw too, but res should be destroyed properly, so we're still providing
 			//		 a strong guarantee on our end
@@ -195,7 +220,11 @@ namespace tt {
 
 			tt_assert(_unique);
 
-			_resources[key] = std::move(_unique);
+			// NOTE: this get_key usage here is to ensure that our _resource entry is made with a key object
+			//		 who's lifetime will match or exceed *_unique's lifetime (such as when the key is a memory-view
+			//		 object who's validity is tied to the memory of the object of its entry)
+
+			_resources[_builder.get_key(*_unique)] = std::move(_unique);
 
 			ff = fetch(key);
 		}
