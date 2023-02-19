@@ -11,16 +11,17 @@
 
 // NOTE: Remember to update these after every update, no matter it major or minor level.
 
+
 namespace tt {
 
 
 	// A C-string detailing the Tirous Toolbox library's version.
-	constexpr const tt_char* const api_version_cstr = "version 2.5";
+	constexpr const tt_char* const api_version_cstr = "version 2.6";
 
 	// A value detailing the major level version number of the Tirous Toolbox library.
 	constexpr tt_size api_version_major = 2;
 
 	// A value detailing the major level version number of the Tirous Toolbox library.
-	constexpr tt_size api_version_minor = 5;
+	constexpr tt_size api_version_minor = 6;
 }
 

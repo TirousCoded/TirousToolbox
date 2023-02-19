@@ -8,10 +8,13 @@
 
 	MINOR level updates are additions to the library, alongside potentially a few
 	vary small removals or modifications, however these ladder two are to be done
-	on a VARY conservative basis, ensuring *reasonable* backwards compatibility.
+	on a conservative basis, ensuring *reasonable* backwards compatibility.
 
 	MAJOR level updates involve major additions, removals, and modifications to 
-	the library, with no promise of backwards compatibility.
+	the library, with no attempt at preserving backwards compatibility.
+
+	Changes to documentation or tiny bug fixes which do not change the behaviour
+	or interface of the API may not be noted in this version history.
 
 
 Version 0.0 (September 26th, 2021)
@@ -121,4 +124,25 @@ Version 2.5 (February 17th, 2023)
 	- Added tt::pool<Key, Resource, Builder> to tt/groups/datastructures.h.
 
 	- Added atomic aliases to tt/aliases.h.
+
+
+Version 2.6 (February 19th, 2023)
+
+
+	- Generally extended (and revised a bit) tt::pool's interface.
+
+	- Made it so tt::pool stores its resource memory objects internally using shared pointers rather 
+	  than unique ones, and making it so the end-user can gain access to these shared pointers to 
+	  extend the lifetime of said resources.
+
+	- As part of the above, tt::pool can now be copy-constructed/assigned, cloning the pool, but
+	  reusing the same memory objects for its resources, as being immutable they (and their keys)
+	  should still be good.
+
+	- Added tt::basic_str<Char>::lit, so as to make it easier for end-user's of the API to
+	  initialize tt::basic_str<Char> objects which view constant string literal memory such that
+	  they take advantage of its reliability to avoid heap allocating a copy of it.
+
+	- As part of the above, tt::basic_str<Char> was also revised a bit to make it less verbose,
+	  such as by renaming tt::str_no_alloc_tag to tt::no_alloc_t.
 

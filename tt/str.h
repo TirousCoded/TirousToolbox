@@ -9,9 +9,10 @@
 // the thread-safety and cheap "copying" that such a model provides, but which C++-style strings 
 // have historically lacked.
 
-// Things like substrings will also NOT generate a new string. Instead, they'll just referencing a 
-// section of a larger string buffer. This leads to the possibility of a vary small string keeping 
-// alive the storage of a much larger object, which is often an acceptable trade-off for speed.
+// Things like substrings will also NOT generate a new string. Instead, they'll just reference a 
+// section of a larger string. This leads to the possibility of a vary small string keeping 
+// alive the storage of a much larger one, which is often an acceptable trade-off for speed, as
+// well as for ease-of-use.
 
 // These strings will NOT be null terminated.
 
@@ -19,6 +20,7 @@
 
 // These strings can be instructed to NOT take ownership of memory when initialized from a C-string,
 // which is to allow for the creation of strings from constant string literals without allocating.
+// (See tt::basic_str<Char>::literal in this regard.)
 
 
 // TODO: if we ever need it, maybe add a concatenating '+' operator overload
@@ -49,7 +51,7 @@ namespace tt {
 	using str32 = basic_str<tt_char32>;
 
 
-	struct str_no_alloc_tag final {};
+	struct no_alloc_t final {};
 
 	template<typename Char>
 	class basic_str final {
@@ -89,18 +91,19 @@ namespace tt {
 		//		 as the end-user might think the system would avoid one in that case, but be wrong
 
 		// Initializes a string of the null-terminated C-string s.
-		// This will will allocate storage.
+		// This will allocate a copy of s.
 		// Behaviour is undefined if s is nullptr.
 		explicit inline basic_str(const char_t* s);
 
 		// Initializes a string of the null-terminated C-string s.
-		// This will will not allocate storage, and so will be invalidated if its lifetime exceeds the memory at s.
+		// This will not allocate a copy of s, and so will be invalidated if its lifetime exceeds the memory at s.
+		// This can be useful if s is a constant string literal who's memory will always be valid.
 		// Behaviour is undefined if s is nullptr.
-		inline basic_str(const char_t* s, str_no_alloc_tag) noexcept;
+		inline basic_str(const char_t* s, no_alloc_t) noexcept;
 
 		basic_str(std::nullptr_t, tt_size) = delete;
 		basic_str(std::nullptr_t) = delete;
-		basic_str(std::nullptr_t, str_no_alloc_tag) noexcept = delete;
+		basic_str(std::nullptr_t, no_alloc_t) noexcept = delete;
 
 		// Initializes a string of other.
 		explicit inline basic_str(const string_t& other)
@@ -170,6 +173,10 @@ namespace tt {
 
 
 		inline void reset() noexcept { *this = this_t{}; }
+
+
+		// Returns a string in a manner equivalent to tt::basic_str<Char>(s, tt::no_alloc_t{}).
+		static inline this_t lit(const char_t* s) noexcept { return this_t(s, no_alloc_t{}); }
 
 
 	private:
@@ -284,7 +291,7 @@ namespace tt {
 		: basic_str(s, measure_cstr(s)) {}
 	
 	template<typename Char>
-	inline basic_str<Char>::basic_str(const char_t* s, str_no_alloc_tag) noexcept 
+	inline basic_str<Char>::basic_str(const char_t* s, no_alloc_t) noexcept 
 		: _storage(nullptr), 
 		_view(s, measure_cstr(s)), 
 		_hash(_calc_hash()) {}
