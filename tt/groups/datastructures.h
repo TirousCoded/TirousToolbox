@@ -15,5 +15,5 @@
 
 #include "../str.h"
 
-#include "../pool.h"
+#include "../memoized_pool.h"
 

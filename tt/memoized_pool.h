@@ -18,19 +18,19 @@
 
 					  All Key types must be usable as keys within std::unordered_map.
 
-					  The tt::pool class is designed to allow for Key types which describe memory-view 
+					  The tt::memoized_pool class is designed to allow for Key types which describe memory-view 
 					  objects viewing (but which do not own) internal memory owned by the Resource object
 					  they correspond to, and as such said keys are thusly invalidated if they outlive their 
 					  corresponding resources.
 
-					  While it is ideal to not have this nuance, tt::pool is, again, designed to allow
+					  While it is ideal to not have this nuance, tt::memoized_pool is, again, designed to allow
 					  for these.
 
 					  As such, if a method like 'aquire' is passed a key, and instantiates a new resource
 					  via it, the key used in the entry of said resource in the pool will NOT be a copy
 					  of the argument, but will instead be a fresh key gotten from the new resource via
 					  the pool's builder. This is done to ensure the key's validity is never called into
-					  question, and thus the end-user of the tt::pool class need-not worry.
+					  question, and thus the end-user of the tt::memoized_pool class need-not worry.
 
 		Resource	- A type encapsulating an immutable resource.
 
@@ -119,34 +119,34 @@ namespace tt {
 
 
 	template<typename Key, typename Resource, typename Builder = naive_builder<Key, Resource>>
-	class pool {
+	class memoized_pool final {
 	public:
 
 		using key_t				= typename Key;
 		using resource_t		= typename Resource;
 		using builder_t			= typename Builder;
 
-		using this_t			= pool<key_t, resource_t, builder_t>;
+		using this_t			= memoized_pool<key_t, resource_t, builder_t>;
 
 		using unordered_map_t	= std::unordered_map<key_t, std::shared_ptr<const resource_t>>;
 
 
 		// Initializes a pool with a default-constructed builder.
-		inline pool() 
+		inline memoized_pool()
 			: _builder() {}
 
 		// Initializes a pool with builder.
-		inline pool(builder_t&& builder) 
+		inline memoized_pool(builder_t&& builder)
 			: _builder(TT_FMOVE(builder_t, builder)), 
 			_resources() {}
 
-		pool(const this_t&) = default; // <- clone pool
+		memoized_pool(const this_t&) = default; // <- clone pool
 
-		inline pool(this_t&& x) noexcept 
+		inline memoized_pool(this_t&& x) noexcept
 			: _builder(TT_FMOVE(builder_t, x._builder)), 
 			_resources(TT_FMOVE(unordered_map_t, x._resources)) {}
 
-		~pool() noexcept = default;
+		~memoized_pool() noexcept = default;
 
 		this_t& operator=(const this_t&) = default; // <- clone pool
 
@@ -215,7 +215,7 @@ namespace tt {
 
 
 	template<typename Key, typename Resource, typename Builder>
-	inline typename pool<Key, Resource, Builder>::this_t& pool<Key, Resource, Builder>::operator=(this_t&& rhs) noexcept {
+	inline typename memoized_pool<Key, Resource, Builder>::this_t& memoized_pool<Key, Resource, Builder>::operator=(this_t&& rhs) noexcept {
 
 
 		TT_SELF_MOVE_TEST(rhs);
@@ -227,7 +227,7 @@ namespace tt {
 	}
 
 	template<typename Key, typename Resource, typename Builder>
-	inline const typename pool<Key, Resource, Builder>::resource_t* pool<Key, Resource, Builder>::fetch(const key_t& key) const {
+	inline const typename memoized_pool<Key, Resource, Builder>::resource_t* memoized_pool<Key, Resource, Builder>::fetch(const key_t& key) const {
 
 
 		const auto ff = _resources.find(key);
@@ -239,7 +239,7 @@ namespace tt {
 	}
 
 	template<typename Key, typename Resource, typename Builder>
-	inline std::shared_ptr<const typename pool<Key, Resource, Builder>::resource_t> pool<Key, Resource, Builder>::fetch_ptr(const key_t& key) const {
+	inline std::shared_ptr<const typename memoized_pool<Key, Resource, Builder>::resource_t> memoized_pool<Key, Resource, Builder>::fetch_ptr(const key_t& key) const {
 
 
 		const auto ff = _resources.find(key);
@@ -251,18 +251,20 @@ namespace tt {
 	}
 
 	template<typename Key, typename Resource, typename Builder>
-	inline const typename pool<Key, Resource, Builder>::resource_t& pool<Key, Resource, Builder>::aquire(const key_t& key) {
+	inline const typename memoized_pool<Key, Resource, Builder>::resource_t& memoized_pool<Key, Resource, Builder>::aquire(const key_t& key) {
 
 
 		const auto _aquired = aquire_ptr(key);
 
 		tt_assert(_aquired);
 
-		return *_aquired;
+		const auto& r = *_aquired;
+
+		return r;
 	}
 
 	template<typename Key, typename Resource, typename Builder>
-	inline std::shared_ptr<const typename pool<Key, Resource, Builder>::resource_t> pool<Key, Resource, Builder>::aquire_ptr(const key_t& key) {
+	inline std::shared_ptr<const typename memoized_pool<Key, Resource, Builder>::resource_t> memoized_pool<Key, Resource, Builder>::aquire_ptr(const key_t& key) {
 
 
 		auto ff = fetch_ptr(key);
@@ -297,7 +299,7 @@ namespace tt {
 	}
 
 	template<typename Key, typename Resource, typename Builder>
-	inline void pool<Key, Resource, Builder>::insert(resource_t resource) {
+	inline void memoized_pool<Key, Resource, Builder>::insert(resource_t resource) {
 
 
 		const auto _key = _builder.get_key(resource);
@@ -308,7 +310,7 @@ namespace tt {
 	}
 
 	template<typename Key, typename Resource, typename Builder>
-	inline void pool<Key, Resource, Builder>::insert(std::shared_ptr<resource_t> resource) {
+	inline void memoized_pool<Key, Resource, Builder>::insert(std::shared_ptr<resource_t> resource) {
 
 
 		if (!resource)

@@ -146,3 +146,16 @@ Version 2.6 (February 19th, 2023)
 	- As part of the above, tt::basic_str<Char> was also revised a bit to make it less verbose,
 	  such as by renaming tt::str_no_alloc_tag to tt::no_alloc_t.
 
+
+Version 2.7 (February 22nd, 2023)
+
+
+	- Renamed 'tt::pool' to 'tt::memoized_pool', to make room for other 'pool' implementations
+	  in the future. (Last breaking change to it, I promise!)
+
+	- Added tt/groups/interfaces.h.
+
+	- Added tt/logger.h.
+	- Added tt/regular_logger.h.
+	- Added tt/thread_safe_logger.h.
+

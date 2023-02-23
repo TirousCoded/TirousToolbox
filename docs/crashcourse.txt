@@ -467,3 +467,26 @@
 	A shorter alias of std::filesystem is available in the form of tt::fs, available
 	in tt/file.h, as per usual.
 
+
+ -- INTERFACES --
+
+
+	The Tiours Toolbox provides abstract base class 'interface' classes which define
+	different kinds of loosely-coupled services, alongside some implementations.
+
+	The end-user is, of course, encouraged to define their own implementations.
+
+	These interfaces aim to *standardize* common design patterns in my projects, so
+	as to make my little ecosystem of shi**y software more modular.
+
+	See tt/groups/interfaces.h for all interfaces.
+
+	Currently a tt::logger interface class is provided (see tt/logger.h.)
+	
+	Alongside this is the tt::regular_logger implementation, which simply wraps 
+	standard output in a logger (see tt/regular_logger.h.)
+
+	Also provided is a tt::thread_safe_logger adaptor used to wrap a logger 
+	implementation in additional thread-safety (aka. 'a mutex') semantics
+	(see tt/thread_safe_logger.h.)
+
