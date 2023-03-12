@@ -153,6 +153,7 @@ namespace tt {
 		inline this_t& operator=(this_t&& rhs) noexcept;
 
 
+		// Returns a copy of the builder used by the pool.
 		inline builder_t get_builder() const noexcept { return _builder; }
 
 
@@ -200,7 +201,7 @@ namespace tt {
 		// NOTE: while HIGHLY unlikely, 'erase' is not noexcept
 
 		// Instructs the memoized resource pool to discard any memoized data associated with key.
-		// Fails quietly if there is no data it discard.
+		// Fails quietly if there is no data to discard.
 		inline void discard(const key_t& key) { _resources.erase(key); }
 
 		// Resets the internal state of the memoized resource pool.

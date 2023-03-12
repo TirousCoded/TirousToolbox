@@ -159,3 +159,10 @@ Version 2.7 (February 22nd, 2023)
 	- Added tt/regular_logger.h.
 	- Added tt/thread_safe_logger.h.
 
+
+Version 2.8 (March 12th, 2023)
+
+
+	- Added tt/inline_layout.h, which implements a simple yet powerful little design pattern I've 
+	  found myself using quite a bit in practice.
+

@@ -14,3 +14,5 @@
 
 #include "../aligned_allocator.h"
 
+#include "../inline_layout.h"
+
