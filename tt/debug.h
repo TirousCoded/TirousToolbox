@@ -61,13 +61,8 @@ namespace tt {
 	// On MSVC this breaks via __debugbreak, otherwise it calls std::abort.
 	// When Tirous Toolbox debug features are disabled, this function becomes inert.
 	inline void debugbreak(const tt_char* condition, const tt_char* file, const tt_char* line) {
-
-
-		if constexpr (tt::config_is_debug_mode) {
-
-
+		if constexpr (tt::config_is_debug_mode) { // <- disable if not debug mode
 			TT_PRINTERRL("TT ASSERT FAILED\nCONDITION: " << condition << "\nFILE: " << file << "\nLINE: " << line);
-
 #if defined(TT_COMPILER_IS_MSVC)
 			__debugbreak();
 #else
@@ -80,8 +75,13 @@ namespace tt {
 
 // Practical macros written in non-screaming snake_case which we use all the time.
 
+#if !defined(TT_CONFIG_RELEASE)
 // The standard debug assert macro of the Tirous Toolbox library.
 #define tt_assert(condition) TT_EVAL_IF_NOT(condition, tt::debugbreak(TT_XSTR(condition), TT_XSTR(__FILE__), TT_XSTR(__LINE__)))
+#else
+// The standard debug assert macro of the Tirous Toolbox library.
+#define tt_assert(condition) TT_DO_NOTHING
+#endif
 
 // A summarized form of tt_assert for when we reach a section of code that shouldn't be reached.
 #define tt_assert_bad tt_assert(false)
